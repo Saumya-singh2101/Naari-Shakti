@@ -20,19 +20,11 @@ A full-stack cybersecurity education platform empowering women through peer ment
 - Modern UI with Neon/Cyberpunk Theme
 - Responsive Design
 
-### Backend
-- Node.js
-- Express.js
-- MongoDB (with Mongoose)
-- JWT Authentication
-- bcrypt for Password Hashing
+
 
 ## Setup Instructions
 
-### Prerequisites
-- Node.js (v14 or higher)
-- MongoDB (or use MongoDB Atlas cloud service)
-- npm or yarn
+
 
 ### Installation
 
@@ -51,16 +43,9 @@ A full-stack cybersecurity education platform empowering women through peer ment
    JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
    JWT_EXPIRES_IN=7d
    ```
-
-3. **Start MongoDB**
-   
-   If using local MongoDB:
-   ```bash
-   # On Windows (if MongoDB is installed as a service, it should start automatically)
-   # Or use MongoDB Atlas (cloud) - no local installation needed
    ```
 
-4. **Start the Server**
+3 **Start the Server**
    ```bash
    npm start
    ```
@@ -70,7 +55,7 @@ A full-stack cybersecurity education platform empowering women through peer ment
    npm run dev
    ```
 
-5. **Open the Application**
+4. **Open the Application**
    
    Open `index.html` in your browser, or if using a server:
    - Frontend: Open `http://localhost:8000` (if using Python server)
@@ -132,23 +117,9 @@ npm run dev
 
 This uses `nodemon` to automatically restart the server when files change.
 
-### MongoDB Setup Options
 
-**Option 1: Local MongoDB**
-- Install MongoDB locally
-- Update `MONGODB_URI` in `.env` to `mongodb://localhost:27017/digitalguardian`
 
-**Option 2: MongoDB Atlas (Cloud)**
-- Create a free account at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
-- Create a cluster and get your connection string
-- Update `MONGODB_URI` in `.env` with your Atlas connection string
 
-## Security Notes
-
-- ⚠️ **Important**: Change the `JWT_SECRET` in production to a strong, random string
-- Passwords are hashed using bcrypt
-- JWT tokens expire after 7 days (configurable)
-- CORS is enabled for development (configure for production)
 
 ## Future Enhancements
 
@@ -165,9 +136,10 @@ ISC
 
 ## Author
 
-SAUMYA
+Saumya,Aarushi,Pranav
 
 ---
 
-Built with 💜 for women in cybersecurity
+Built with 💜 for women to protect and raise their voice safely against the injustice
+
 
