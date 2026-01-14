@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naari Shakti</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/neon-theme.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            padding-top: 80px;
+            background: #0a0a0a;
+            color: #ffffff;
+            font-family: 'Rajdhani', sans-serif;
+        }
+        
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .page-header h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: 3rem;
+            color: #00ffff;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px #00ffff;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+        }
+        
+        .sidebar {
+            background: #1a1a2e;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            height: fit-content;
+        }
+        
+        .sidebar-section {
+            margin-bottom: 2rem;
+        }
+        
+        .sidebar-section h3 {
+            color: #00ffff;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .section-card {
+            background: #1a1a2e;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+        
+        .section-card h2 {
+            color: #00ffff;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+        
+        .guardians-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .guardian-card {
+            background: rgba(0, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .guardian-card:hover {
+            background: rgba(0, 255, 255, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 255, 255, 0.3);
+        }
+        
+        .guardian-avatar {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        
+        .guardian-name {
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .guardian-role {
+            color: #00ffff;
+            margin-bottom: 1rem;
+        }
+        
+        .guardian-expertise {
+            color: #b0b0b0;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .connect-btn {
+            background: rgba(0, 255, 255, 0.2);
+            border: 1px solid #00ffff;
+            color: #00ffff;
+            padding: 8px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            width: 100%;
+        }
+        
+        .connect-btn:hover {
+            background: #00ffff;
+            color: #0a0a0a;
+        }
+        
+        .certifications-section {
+            margin-top: 2rem;
+        }
+        
+        .upload-cert {
+            background: rgba(0, 255, 255, 0.1);
+            border: 2px dashed rgba(0, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .upload-cert:hover {
+            border-color: #00ffff;
+            background: rgba(0, 255, 255, 0.15);
+        }
+        
+        .upload-cert i {
+            font-size: 3rem;
+            color: #00ffff;
+            margin-bottom: 1rem;
+        }
+        
+        .cert-list {
+            margin-top: 1.5rem;
+        }
+        
+        .cert-item {
+            background: rgba(0, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .cert-info {
+            flex: 1;
+        }
+        
+        .cert-name {
+            color: #ffffff;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .cert-issuer {
+            color: #b0b0b0;
+            font-size: 0.9rem;
+        }
+        
+        .back-btn {
+            position: fixed;
+            top: 100px;
+            left: 20px;
+            background: rgba(0, 255, 255, 0.2);
+            border: 1px solid #00ffff;
+            color: #00ffff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            z-index: 100;
+        }
+        
+        .back-btn:hover {
+            background: rgba(0, 255, 255, 0.3);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+        
+        input[type="file"] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-shield-alt"></i>
+                <span>Nari Shakti</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="community.html" class="nav-link">Community</a>
+                <a href="missions.html" class="nav-link">Missions</a>
+                <a href="learning.html" class="nav-link">Learning</a>
+            </div>
+            <div class="nav-auth">
+                <div id="user-profile" class="user-info">
+                    <span id="user-avatar-display" class="user-avatar">🛡️</span>
+                    <span id="user-name-display" class="user-name">Naari Shakti</span>
+                    <span id="user-points" class="user-points">0 XP</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <a href="index.html" class="back-btn">
+        <i class="fas fa-arrow-left"></i> Back to Home
+    </a>
+
+    <div class="dashboard-container">
+        <div class="page-header">
+            <h1 class="neon-text">Guardian Dashboard</h1>
+            <p>Connect with fellow guardians and showcase your expertise</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="sidebar">
+                <div class="sidebar-section">
+                    <h3><i class="fas fa-user-shield"></i> Your Profile</h3>
+                    <div style="text-align: center; margin-bottom: 1rem;">
+                        <div id="profile-avatar" style="font-size: 4rem; margin-bottom: 0.5rem;">🛡️</div>
+                        <div id="profile-name" style="font-weight: 600; color: #ffffff;">Guardian</div>
+                        <div style="color: #00ffff; font-size: 0.9rem;">Guardian (Mentor)</div>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <h3><i class="fas fa-trophy"></i> Stats</h3>
+                    <div style="color: #b0b0b0; margin-bottom: 0.5rem;">Points: <span id="profile-points" style="color: #00ff00;">0</span></div>
+                    <div style="color: #b0b0b0; margin-bottom: 0.5rem;">Level: <span id="profile-level" style="color: #00ffff;">1</span></div>
+                    <div style="color: #b0b0b0;">Mentees: <span style="color: #ff00ff;">0</span></div>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <!-- Connect with Guardians -->
+                <div class="section-card">
+                    <h2><i class="fas fa-users"></i> Connect with Fellow Guardians</h2>
+                    <div class="guardians-grid" id="guardians-grid">
+                        <!-- Guardians loaded dynamically -->
+                    </div>
+                </div>
+
+                <!-- Certifications -->
+                <div class="section-card certifications-section">
+                    <h2><i class="fas fa-certificate"></i> Your Certifications</h2>
+                    <input type="file" id="cert-upload" accept="image/*,.pdf">
+                    <div class="upload-cert" onclick="document.getElementById('cert-upload').click()">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <div style="color: #00ffff; font-weight: 600; margin-top: 0.5rem;">Upload Certification</div>
+                        <div style="color: #b0b0b0; font-size: 0.9rem; margin-top: 0.25rem;">Click to upload your cybersecurity certifications</div>
+                    </div>
+                    <div class="cert-list" id="cert-list">
+                        <!-- Certifications loaded dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function loadUserData() {
+            const userData = localStorage.getItem('digitalGuardianUser');
+            if (userData) {
+                const user = JSON.parse(userData);
+                document.getElementById('user-avatar-display').textContent = getAvatarIcon(user.avatar);
+                document.getElementById('user-name-display').textContent = user.name;
+                document.getElementById('user-points').textContent = `${user.points || 0} XP`;
+                document.getElementById('profile-avatar').textContent = getAvatarIcon(user.avatar);
+                document.getElementById('profile-name').textContent = user.name;
+                document.getElementById('profile-points').textContent = user.points || 0;
+                document.getElementById('profile-level').textContent = user.level || 1;
+            }
+        }
+
+        function getAvatarIcon(avatar) {
+            const map = {
+                'avatar1': '🛡️', 'avatar2': '⚔️', 'avatar3': '🥷', 'avatar4': '💻',
+                'avatar5': '🔒', 'avatar6': '🌐', 'avatar7': '🔐', 'avatar8': '🛡️',
+                'avatar9': '⚡', 'avatar10': '🦸', 'avatar11': '👩‍💻', 'avatar12': '👑'
+            };
+            return map[avatar] || '🛡️';
+        }
+
+        const guardians = [
+            { name: 'Sarah Chen', role: 'Senior Security Analyst', avatar: '🛡️', expertise: 'Network Security, Penetration Testing', connected: false },
+            { name: 'Maria Garcia', role: 'Cybersecurity Consultant', avatar: '⚔️', expertise: 'Risk Assessment, Compliance', connected: false },
+            { name: 'Dr. Priya Patel', role: 'Security Researcher', avatar: '💻', expertise: 'Cryptography, Secure Coding', connected: false },
+            { name: 'Emma Wilson', role: 'Incident Response Specialist', avatar: '🔒', expertise: 'Threat Detection, Forensics', connected: false },
+            { name: 'Alex Kim', role: 'Security Architect', avatar: '🌐', expertise: 'Cloud Security, Infrastructure', connected: false },
+            { name: 'Jordan Taylor', role: 'Security Educator', avatar: '🔐', expertise: 'Training, Awareness Programs', connected: false }
+        ];
+
+        function loadGuardians() {
+            const grid = document.getElementById('guardians-grid');
+            grid.innerHTML = '';
+            
+            const savedConnections = JSON.parse(localStorage.getItem('guardianConnections') || '[]');
+            
+            guardians.forEach(guardian => {
+                const isConnected = savedConnections.includes(guardian.name);
+                const card = document.createElement('div');
+                card.className = 'guardian-card';
+                card.innerHTML = `
+                    <div class="guardian-avatar">${guardian.avatar}</div>
+                    <div class="guardian-name">${guardian.name}</div>
+                    <div class="guardian-role">${guardian.role}</div>
+                    <div class="guardian-expertise">${guardian.expertise}</div>
+                    <button class="connect-btn" onclick="connectGuardian('${guardian.name}')" ${isConnected ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}>
+                        ${isConnected ? '<i class="fas fa-check"></i> Connected' : '<i class="fas fa-user-plus"></i> Connect'}
+                    </button>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function connectGuardian(name) {
+            const connections = JSON.parse(localStorage.getItem('guardianConnections') || '[]');
+            if (!connections.includes(name)) {
+                connections.push(name);
+                localStorage.setItem('guardianConnections', JSON.stringify(connections));
+                alert(`Connected with ${name}! You can now collaborate and share knowledge.`);
+                loadGuardians();
+            }
+        }
+
+        function loadCertifications() {
+            const certs = JSON.parse(localStorage.getItem('certifications') || '[]');
+            const certList = document.getElementById('cert-list');
+            certList.innerHTML = '';
+            
+            if (certs.length === 0) {
+                certList.innerHTML = '<div style="text-align: center; color: #b0b0b0; padding: 2rem;">No certifications uploaded yet. Click above to upload your first certification!</div>';
+            } else {
+                certs.forEach((cert, index) => {
+                    const certItem = document.createElement('div');
+                    certItem.className = 'cert-item';
+                    certItem.innerHTML = `
+                        <div class="cert-info">
+                            <div class="cert-name">${cert.name}</div>
+                            <div class="cert-issuer">${cert.issuer} • ${cert.date}</div>
+                        </div>
+                        <button style="background: rgba(255, 0, 0, 0.2); border: 1px solid #ff0000; color: #ff0000; padding: 5px 15px; border-radius: 8px; cursor: pointer;" onclick="removeCert(${index})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    `;
+                    certList.appendChild(certItem);
+                });
+            }
+        }
+
+        document.getElementById('cert-upload').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const certName = prompt('Enter certification name:');
+                const certIssuer = prompt('Enter issuing organization:');
+                if (certName && certIssuer) {
+                    const certs = JSON.parse(localStorage.getItem('certifications') || '[]');
+                    certs.push({
+                        name: certName,
+                        issuer: certIssuer,
+                        date: new Date().toLocaleDateString(),
+                        file: file.name
+                    });
+                    localStorage.setItem('certifications', JSON.stringify(certs));
+                    loadCertifications();
+                    alert('Certification uploaded successfully!');
+                }
+            }
+        });
+
+        function removeCert(index) {
+            if (confirm('Remove this certification?')) {
+                const certs = JSON.parse(localStorage.getItem('certifications') || '[]');
+                certs.splice(index, 1);
+                localStorage.setItem('certifications', JSON.stringify(certs));
+                loadCertifications();
+            }
+        }
+
+        loadUserData();
+        loadGuardians();
+        loadCertifications();
+    </script>
+</body>
+</html>
+

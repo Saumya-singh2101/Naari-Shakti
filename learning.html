@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill Building & Digital Literacy - Digital Guardian</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/neon-theme.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            padding-top: 80px;
+            background: #0a0a0a;
+            color: #ffffff;
+            font-family: 'Rajdhani', sans-serif;
+        }
+        
+        .learning-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .page-header h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: 3rem;
+            color: #00ffff;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px #00ffff;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid rgba(0, 255, 255, 0.3);
+        }
+        
+        .tab {
+            padding: 1rem 2rem;
+            background: transparent;
+            border: none;
+            color: #b0b0b0;
+            font-size: 1.1rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+        }
+        
+        .tab:hover {
+            color: #00ffff;
+        }
+        
+        .tab.active {
+            color: #00ffff;
+            border-bottom-color: #00ffff;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .resource-card {
+            background: #1a1a2e;
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .resource-card:hover {
+            border-color: #00ffff;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+            transform: translateY(-5px);
+        }
+        
+        .resource-icon {
+            font-size: 3rem;
+            color: #00ffff;
+            margin-bottom: 1rem;
+        }
+        
+        .resource-card h3 {
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+        
+        .resource-card p {
+            color: #b0b0b0;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .resource-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #707070;
+        }
+        
+        .resource-type {
+            display: inline-block;
+            padding: 5px 10px;
+            background: rgba(0, 255, 255, 0.2);
+            border-radius: 15px;
+            color: #00ffff;
+            font-size: 0.85rem;
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .guardians-section {
+            background: #1a1a2e;
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .guardians-section h2 {
+            color: #00ffff;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        
+        .guardians-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .guardian-card {
+            background: rgba(0, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .guardian-card:hover {
+            background: rgba(0, 255, 255, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 255, 255, 0.3);
+        }
+        
+        .guardian-avatar {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        
+        .guardian-name {
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .guardian-role {
+            color: #00ffff;
+            margin-bottom: 1rem;
+        }
+        
+        .guardian-expertise {
+            color: #b0b0b0;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .connect-btn {
+            background: rgba(0, 255, 255, 0.2);
+            border: 1px solid #00ffff;
+            color: #00ffff;
+            padding: 8px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        .connect-btn:hover {
+            background: #00ffff;
+            color: #0a0a0a;
+        }
+        
+        .back-btn {
+            position: fixed;
+            top: 100px;
+            left: 20px;
+            background: rgba(0, 255, 255, 0.2);
+            border: 1px solid #00ffff;
+            color: #00ffff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            z-index: 100;
+        }
+        
+        .back-btn:hover {
+            background: rgba(0, 255, 255, 0.3);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .search-bar {
+            width: 100%;
+            padding: 15px;
+            background: #1a1a2e;
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .search-bar:focus {
+            outline: none;
+            border-color: #00ffff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-shield-alt"></i>
+                <span>Digital Guardian</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="community.html" class="nav-link">Community</a>
+                <a href="missions.html" class="nav-link">Missions</a>
+                <a href="learning.html" class="nav-link active">Learning</a>
+            </div>
+            <div class="nav-auth">
+                <div id="user-profile" class="user-info">
+                    <span id="user-avatar-display" class="user-avatar">🛡️</span>
+                    <span id="user-name-display" class="user-name">Digital Guardian</span>
+                    <span id="user-points" class="user-points">0 XP</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <a href="index.html" class="back-btn">
+        <i class="fas fa-arrow-left"></i> Back to Home
+    </a>
+
+    <div class="learning-container">
+        <div class="page-header">
+            <h1 class="neon-text">Skill Building & Digital Literacy</h1>
+            <p>Explore cybersecurity resources, learn from experts, and connect with guardians</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('books')">
+                <i class="fas fa-book"></i> Books
+            </button>
+            <button class="tab" onclick="switchTab('videos')">
+                <i class="fas fa-video"></i> Videos
+            </button>
+            <button class="tab" onclick="switchTab('articles')">
+                <i class="fas fa-newspaper"></i> Articles
+            </button>
+        </div>
+
+        <input type="text" class="search-bar" id="search-bar" placeholder="Search resources..." onkeyup="filterResources()">
+
+        <!-- Books Tab -->
+        <div class="tab-content active" id="books-tab">
+            <div class="resources-grid" id="books-grid">
+                <!-- Books will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Videos Tab -->
+        <div class="tab-content" id="videos-tab">
+            <div class="resources-grid" id="videos-grid">
+                <!-- Videos will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Articles Tab -->
+        <div class="tab-content" id="articles-tab">
+            <div class="resources-grid" id="articles-grid">
+                <!-- Articles will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Connect with Guardians -->
+        <div class="guardians-section">
+            <h2><i class="fas fa-user-shield"></i> Connect with Experienced Guardians</h2>
+            <p style="color: #b0b0b0; margin-bottom: 2rem;">Get personalized guidance from cybersecurity experts</p>
+            <div class="guardians-grid" id="guardians-grid">
+                <!-- Guardians will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load user data
+        function loadUserData() {
+            const userData = localStorage.getItem('digitalGuardianUser');
+            if (userData) {
+                const user = JSON.parse(userData);
+                document.getElementById('user-avatar-display').textContent = getAvatarIcon(user.avatar);
+                document.getElementById('user-name-display').textContent = user.name;
+                document.getElementById('user-points').textContent = `${user.points || 0} XP`;
+            }
+        }
+
+        function getAvatarIcon(avatar) {
+            const map = {
+                'avatar1': '🛡️', 'avatar2': '⚔️', 'avatar3': '🥷', 'avatar4': '💻',
+                'avatar5': '🔒', 'avatar6': '🌐', 'avatar7': '🔐', 'avatar8': '🛡️',
+                'avatar9': '⚡', 'avatar10': '🦸', 'avatar11': '👩‍💻', 'avatar12': '👑'
+            };
+            return map[avatar] || '🛡️';
+        }
+
+        // Resources data
+        const books = [
+    {
+        title: 'Sexual Harassment of Women at Workplace',
+        author: 'Justice B.N. Srikrishna',
+        type: 'Book',
+        icon: '⚖️',
+        description: 'An authoritative guide explaining the POSH Act, women’s rights, and employer responsibilities.'
+    },
+    {
+        title: 'We Too: Essays on Sex, Work, and Patriarchy',
+        author: 'Rana Ayyub',
+        type: 'Book',
+        icon: '📘',
+        description: 'Powerful essays highlighting women’s experiences with harassment, silence, and resistance.'
+    },
+    {
+        title: 'Invisible Women',
+        author: 'Caroline Criado Perez',
+        type: 'Book',
+        icon: '📖',
+        description: 'Explores how gender bias impacts women’s safety, health, and access to justice.'
+    },
+    {
+        title: 'Why Loiter?',
+        author: 'Shilpa Phadke, Sameera Khan & Shilpa Ranade',
+        type: 'Book',
+        icon: '🚶‍♀️',
+        description: 'A bold look at women’s right to public spaces and everyday safety.'
+    },
+    {
+        title: 'See What You Made Me Do',
+        author: 'Jess Hill',
+        type: 'Book',
+        icon: '🛡️',
+        description: 'A deep dive into gender-based violence, abuse patterns, and survival strategies.'
+    },
+    {
+        title: 'The Gift of Fear',
+        author: 'Gavin de Becker',
+        type: 'Book',
+        icon: '🧠',
+        description: 'Teaches women how to trust intuition and recognize early warning signs of danger.'
+    }
+];
+
+const videos = [
+    {
+        title: 'Understanding Sexual Harassment',
+        channel: 'Women Safety India',
+        type: 'Video',
+        icon: '🛡️',
+        description: 'Learn what constitutes sexual harassment at workplace and public spaces with real-life examples.',
+        embed: 'https://www.youtube.com/embed/9rjS0y9vCwY'
+    },
+    {
+        title: 'Know Your Legal Rights as a Woman',
+        channel: 'Legal Awareness',
+        type: 'Video',
+        icon: '⚖️',
+        description: 'A simple explanation of laws protecting women against harassment and abuse in India.',
+        embed: 'https://www.youtube.com/embed/1Jp9F0Gf6yM'
+    },
+    {
+        title: 'Workplace Harassment: What To Do',
+        channel: 'POSH Awareness',
+        type: 'Video',
+        icon: '🏢',
+        description: 'Step-by-step guide on how to report sexual harassment at workplace under POSH Act.',
+        embed: 'https://www.youtube.com/embed/Wz9ZCw5V1nY'
+    },
+    {
+        title: 'Self-Defense Tips for Women',
+        channel: 'Safety First',
+        type: 'Video',
+        icon: '🥋',
+        description: 'Basic self-defense techniques every woman should know for emergency situations.',
+        embed: 'https://www.youtube.com/embed/KVpxP3ZZtAc'
+    },
+    {
+        title: 'Cyber Harassment & Online Safety',
+        channel: 'Digital Suraksha',
+        type: 'Video',
+        icon: '📱',
+        description: 'How to deal with online stalking, trolling, blackmail, and cyber harassment.',
+        embed: 'https://www.youtube.com/embed/8KxW8n6T0kA'
+    },
+    {
+        title: 'Emergency Helplines & Support Systems',
+        channel: 'Nari Suraksha',
+        type: 'Video',
+        icon: '📞',
+        description: 'Know important women safety helpline numbers and how to seek immediate help.',
+        embed: 'https://www.youtube.com/embed/5xY5Z8pE9kU'
+    }
+];
+
+const articles = [
+    {
+        title: 'What Is Sexual Harassment?',
+        author: 'Women Rights Foundation',
+        type: 'Article',
+        icon: '📄',
+        description: 'Clear definition, examples, and types of sexual harassment explained in simple language.'
+    },
+    {
+        title: 'POSH Act Explained Simply',
+        author: 'Legal Aid India',
+        type: 'Article',
+        icon: '📰',
+        description: 'Everything you need to know about the Prevention of Sexual Harassment Act.'
+    },
+    {
+        title: 'How to File a Complaint',
+        author: 'Legal Support Desk',
+        type: 'Article',
+        icon: '📑',
+        description: 'Step-by-step guide to filing police, workplace, or online complaints safely.'
+    },
+    {
+        title: 'Cyber Crime Against Women',
+        author: 'Cyber Crime Cell',
+        type: 'Article',
+        icon: '📋',
+        description: 'Understanding cyber stalking, revenge porn, fake profiles, and how to report them.'
+    },
+    {
+        title: 'Women Safety Laws in India',
+        author: 'Indian Constitution',
+        type: 'Article',
+        icon: '📊',
+        description: 'Key IPC sections and laws that protect women from harassment and violence.'
+    },
+    {
+        title: 'Mental Health After Harassment',
+        author: 'Counselling Support',
+        type: 'Article',
+        icon: '🧠',
+        description: 'Coping strategies, healing tips, and when to seek professional help.'
+    }
+];
+
+        const guardians = [
+            { name: 'Sarah Chen', role: 'Senior Security Analyst', avatar: '🛡️', expertise: 'Network Security, Penetration Testing', rating: 5 },
+            { name: 'Maria Garcia', role: 'Cybersecurity Consultant', avatar: '⚔️', expertise: 'Risk Assessment, Compliance', rating: 5 },
+            { name: 'Dr. Priya Patel', role: 'Security Researcher', avatar: '💻', expertise: 'Cryptography, Secure Coding', rating: 5 },
+            { name: 'Emma Wilson', role: 'Incident Response Specialist', avatar: '🔒', expertise: 'Threat Detection, Forensics', rating: 5 },
+            { name: 'Alex Kim', role: 'Security Architect', avatar: '🌐', expertise: 'Cloud Security, Infrastructure', rating: 5 },
+            { name: 'Jordan Taylor', role: 'Security Educator', avatar: '🔐', expertise: 'Training, Awareness Programs', rating: 5 }
+        ];
+
+        function loadResources() {
+            loadBooks();
+            loadVideos();
+            loadArticles();
+            loadGuardians();
+        }
+
+        function loadBooks() {
+            const grid = document.getElementById('books-grid');
+            grid.innerHTML = '';
+            books.forEach(book => {
+                const card = createResourceCard(book);
+                grid.appendChild(card);
+            });
+        }
+
+        function loadVideos() {
+            const grid = document.getElementById('videos-grid');
+            grid.innerHTML = '';
+            videos.forEach(video => {
+                const card = document.createElement('div');
+                card.className = 'resource-card';
+                card.innerHTML = `
+                    <div class="video-container">
+                        <iframe src="${video.embed}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="resource-icon">${video.icon}</div>
+                    <h3>${video.title}</h3>
+                    <p>${video.description}</p>
+                    <div class="resource-meta">
+                        <span>${video.channel}</span>
+                        <span class="resource-type">${video.type}</span>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function loadArticles() {
+            const grid = document.getElementById('articles-grid');
+            grid.innerHTML = '';
+            articles.forEach(article => {
+                const card = createResourceCard(article);
+                grid.appendChild(card);
+            });
+        }
+
+        function createResourceCard(resource) {
+            const card = document.createElement('div');
+            card.className = 'resource-card';
+            card.innerHTML = `
+                <div class="resource-icon">${resource.icon}</div>
+                <h3>${resource.title}</h3>
+                <p>${resource.description}</p>
+                <div class="resource-meta">
+                    <span>${resource.author || resource.channel || ''}</span>
+                    <span class="resource-type">${resource.type}</span>
+                </div>
+            `;
+            card.onclick = () => {
+                alert(`Opening: ${resource.title}\n\nThis would open the full resource in a new window.`);
+            };
+            return card;
+        }
+
+        function loadGuardians() {
+            const grid = document.getElementById('guardians-grid');
+            grid.innerHTML = '';
+            guardians.forEach(guardian => {
+                const card = document.createElement('div');
+                card.className = 'guardian-card';
+                card.innerHTML = `
+                    <div class="guardian-avatar">${guardian.avatar}</div>
+                    <div class="guardian-name">${guardian.name}</div>
+                    <div class="guardian-role">${guardian.role}</div>
+                    <div class="guardian-expertise">${guardian.expertise}</div>
+                    <div style="margin-bottom: 1rem;">
+                        ${'⭐'.repeat(guardian.rating)}
+                    </div>
+                    <button class="connect-btn" onclick="connectGuardian('${guardian.name}')">
+                        <i class="fas fa-user-plus"></i> Connect
+                    </button>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function connectGuardian(name) {
+            alert(`Connecting you with ${name}...\n\nYou can now chat with them in the Community section!`);
+            window.location.href = 'community.html';
+        }
+
+        function switchTab(tabName) {
+            // Update tabs
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Update content
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+        }
+
+        function filterResources() {
+            const searchTerm = document.getElementById('search-bar').value.toLowerCase();
+            const activeTab = document.querySelector('.tab-content.active');
+            const cards = activeTab.querySelectorAll('.resource-card, .guardian-card');
+
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(searchTerm) ? 'block' : 'none';
+            });
+        }
+
+        loadUserData();
+        loadResources();
+    </script>
+</body>
+</html>
+

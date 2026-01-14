@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Missions & Challenges - Digital Guardian</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/neon-theme.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            padding-top: 80px;
+            background: #0a0a0a;
+            color: #ffffff;
+            font-family: 'Rajdhani', sans-serif;
+        }
+        
+        .missions-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .page-header h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: 3rem;
+            color: #00ffff;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px #00ffff;
+        }
+        
+        .missions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .mission-card-large {
+            background: #1a1a2e;
+            border: 2px solid rgba(0, 255, 0, 0.3);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .mission-card-large:hover {
+            border-color: #00ff00;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
+            transform: translateY(-5px);
+        }
+        
+        .mission-header-large {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .mission-icon-large {
+            font-size: 3rem;
+            color: #00ff00;
+        }
+        
+        .mission-points-large {
+            background: #00ff00;
+            color: #0a0a0a;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 700;
+        }
+        
+        .mission-card-large h3 {
+            color: #ffffff;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .mission-card-large p {
+            color: #b0b0b0;
+            margin-bottom: 1.5rem;
+        }
+        
+        .game-container {
+            background: #1a1a2e;
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2rem;
+            display: none;
+        }
+        
+        .game-container.active {
+            display: block;
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        .game-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .game-header h2 {
+            color: #00ffff;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .phishing-email {
+            background: #2a2a2a;
+            border: 2px solid rgba(255, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .phishing-email:hover {
+            border-color: #ff0000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+        }
+        
+        .phishing-email.safe {
+            border-color: rgba(0, 255, 0, 0.3);
+        }
+        
+        .phishing-email.safe:hover {
+            border-color: #00ff00;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+        
+        .email-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        
+        .email-from {
+            font-weight: 600;
+            color: #00ffff;
+        }
+        
+        .email-subject {
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 1rem;
+        }
+        
+        .email-body {
+            color: #b0b0b0;
+            line-height: 1.6;
+        }
+        
+        .game-result {
+            text-align: center;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            display: none;
+        }
+        
+        .game-result.correct {
+            background: rgba(0, 255, 0, 0.2);
+            border: 2px solid #00ff00;
+            color: #00ff00;
+        }
+        
+        .game-result.incorrect {
+            background: rgba(255, 0, 0, 0.2);
+            border: 2px solid #ff0000;
+            color: #ff0000;
+        }
+        
+        .quiz-container {
+            background: #2a2a2a;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .quiz-question {
+            color: #ffffff;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .password-input {
+            width: 100%;
+            padding: 15px;
+            background: #1a1a2e;
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .password-input:focus {
+            outline: none;
+            border-color: #00ffff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+        }
+        
+        .password-strength {
+            height: 10px;
+            background: #1a1a2e;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        
+        .strength-bar {
+            height: 100%;
+            width: 0%;
+            transition: all 0.3s;
+            border-radius: 5px;
+        }
+        
+        .strength-bar.weak {
+            background: #ff0000;
+            width: 33%;
+        }
+        
+        .strength-bar.medium {
+            background: #ffff00;
+            width: 66%;
+        }
+        
+        .strength-bar.strong {
+            background: #00ff00;
+            width: 100%;
+        }
+        
+        .strength-text {
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .strength-text.weak {
+            color: #ff0000;
+        }
+        
+        .strength-text.medium {
+            color: #ffff00;
+        }
+        
+        .strength-text.strong {
+            color: #00ff00;
+        }
+        
+        .mcq-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .mcq-option {
+            background: #1a1a2e;
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .mcq-option:hover {
+            border-color: #00ffff;
+            background: rgba(0, 255, 255, 0.1);
+        }
+        
+        .mcq-option.selected {
+            border-color: #00ffff;
+            background: rgba(0, 255, 255, 0.2);
+        }
+        
+        .mcq-option.correct {
+            border-color: #00ff00;
+            background: rgba(0, 255, 0, 0.2);
+        }
+        
+        .mcq-option.incorrect {
+            border-color: #ff0000;
+            background: rgba(255, 0, 0, 0.2);
+        }
+        
+        .game-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        
+        .btn-game {
+            padding: 12px 30px;
+            border: 2px solid #00ffff;
+            background: transparent;
+            color: #00ffff;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn-game:hover {
+            background: #00ffff;
+            color: #0a0a0a;
+            box-shadow: 0 0 20px #00ffff;
+        }
+        
+        .back-btn {
+            position: fixed;
+            top: 100px;
+            left: 20px;
+            background: rgba(0, 255, 255, 0.2);
+            border: 1px solid #00ffff;
+            color: #00ffff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            z-index: 100;
+        }
+        
+        .back-btn:hover {
+            background: rgba(0, 255, 255, 0.3);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .score-display {
+            text-align: center;
+            font-size: 1.5rem;
+            color: #00ff00;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-shield-alt"></i>
+                <span>Digital Guardian</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="community.html" class="nav-link">Community</a>
+                <a href="missions.html" class="nav-link active">Missions</a>
+                <a href="learning.html" class="nav-link">Learning</a>
+            </div>
+            <div class="nav-auth">
+                <div id="user-profile" class="user-info">
+                    <span id="user-avatar-display" class="user-avatar">🛡️</span>
+                    <span id="user-name-display" class="user-name">Digital Guardian</span>
+                    <span id="user-points" class="user-points">0 XP</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <a href="index.html" class="back-btn">
+        <i class="fas fa-arrow-left"></i> Back to Home
+    </a>
+
+    <div class="missions-container">
+        <div class="page-header">
+            <h1 class="neon-text">Weekly Missions & Challenges</h1>
+            <p>Learn to protect yourself, identify harassment, and take the right action through interactive safety missions.</p>
+</div>
+
+<div class="score-display">
+    <i class="fas fa-trophy"></i> Your Safety Score: <span id="total-score">0</span> XP
+</div>
+
+<div class="missions-grid">
+
+    <!-- Mission 1: Harassment Spotter -->
+    <div class="mission-card-large" onclick="startPhishingGame()">
+        <div class="mission-header-large">
+            <div class="mission-icon-large">
+                <i class="fas fa-user-shield"></i>
+            </div>
+            <span class="mission-points-large">+150 XP</span>
+        </div>
+        <h3>Harassment Spotter</h3>
+        <p>
+            Identify messages and situations that qualify as harassment and learn when and how to take action.
+        </p>
+        <div class="mission-progress">
+            <div class="progress-bar">
+                <div class="progress-fill" id="phishing-progress" style="width: 0%;"></div>
+            </div>
+            <span id="phishing-status">Not Started</span>
+        </div>
+    </div>
+
+    <!-- Mission 2: Personal Safety Shield -->
+    <div class="mission-card-large" onclick="startPasswordGame()">
+        <div class="mission-header-large">
+            <div class="mission-icon-large">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <span class="mission-points-large">+100 XP</span>
+        </div>
+        <h3>Personal Safety Shield</h3>
+        <p>
+            Learn daily safety habits, boundaries, and self-protection steps that help you stay safe in risky situations.
+        </p>
+        <div class="mission-progress">
+            <div class="progress-bar">
+                <div class="progress-fill" id="password-progress" style="width: 0%;"></div>
+            </div>
+            <span id="password-status">Not Started</span>
+        </div>
+    </div>
+
+    <!-- Mission 3: Women Safety & Rights Quiz -->
+    <div class="mission-card-large" onclick="startMCQGame()">
+        <div class="mission-header-large">
+            <div class="mission-icon-large">
+                <i class="fas fa-balance-scale"></i>
+            </div>
+            <span class="mission-points-large">+200 XP</span>
+        </div>
+        <h3>Women Safety & Rights Quiz</h3>
+        <p>
+            Test your awareness of harassment laws, safety rights, emergency actions, and responsible responses.
+        </p>
+        <div class="mission-progress">
+            <div class="progress-bar">
+                <div class="progress-fill" id="mcq-progress" style="width: 0%;"></div>
+            </div>
+            <span id="mcq-status">Not Started</span>
+        </div>
+    </div>
+
+</div>
+
+<!-- ================= MISSIONS GRID ================= -->
+
+<!-- Mission 1: Harassment Spotter -->
+<div class="mission-card-large" onclick="startPhishingGame()">
+    <div class="mission-header-large">
+        <div class="mission-icon-large">
+            <i class="fas fa-user-shield"></i>
+        </div>
+        <span class="mission-points-large">+150 XP</span>
+    </div>
+    <h3>Harassment Spotter</h3>
+    <p>
+        Identify messages and situations that qualify as harassment and learn when and how to take action.
+    </p>
+    <div class="mission-progress">
+        <div class="progress-bar">
+            <div class="progress-fill" id="phishing-progress" style="width: 0%;"></div>
+        </div>
+        <span id="phishing-status">Not Started</span>
+    </div>
+</div>
+
+<!-- Mission 2: Personal Safety Shield -->
+<div class="mission-card-large" onclick="startPasswordGame()">
+    <div class="mission-header-large">
+        <div class="mission-icon-large">
+            <i class="fas fa-shield-alt"></i>
+        </div>
+        <span class="mission-points-large">+100 XP</span>
+    </div>
+    <h3>Personal Safety Shield</h3>
+    <p>
+        Learn daily safety habits, boundaries, and self-protection steps that help you stay safe in risky situations.
+    </p>
+    <div class="mission-progress">
+        <div class="progress-bar">
+            <div class="progress-fill" id="password-progress" style="width: 0%;"></div>
+        </div>
+        <span id="password-status">Not Started</span>
+    </div>
+</div>
+
+<!-- Mission 3: Women Safety & Rights Quiz -->
+<div class="mission-card-large" onclick="startMCQGame()">
+    <div class="mission-header-large">
+        <div class="mission-icon-large">
+            <i class="fas fa-balance-scale"></i>
+        </div>
+        <span class="mission-points-large">+200 XP</span>
+    </div>
+    <h3>Women Safety & Rights Quiz</h3>
+    <p>
+        Test your awareness of harassment laws, safety rights, emergency actions, and responsible responses.
+    </p>
+    <div class="mission-progress">
+        <div class="progress-bar">
+            <div class="progress-fill" id="mcq-progress" style="width: 0%;"></div>
+        </div>
+        <span id="mcq-status">Not Started</span>
+    </div>
+</div>
+
+<!-- ================= GAMES ================= -->
+
+<!-- Mission 1 Game -->
+<div class="game-container" id="phishing-game">
+    <div class="game-header">
+        <h2><i class="fas fa-user-shield"></i> Harassment Spotter</h2>
+        <p>
+            Click on messages or situations that indicate harassment. Leave respectful and safe interactions unselected.
+        </p>
+    </div>
+    <div id="phishing-emails"></div>
+    <div class="game-result" id="phishing-result"></div>
+    <div class="game-actions">
+        <button class="btn-game" onclick="checkPhishingAnswers()">Check Answers</button>
+        <button class="btn-game" onclick="closeGame('phishing-game')">Close</button>
+    </div>
+</div>
+
+<!-- Mission 2 Game -->
+<div class="game-container" id="password-game">
+    <div class="game-header">
+        <h2><i class="fas fa-shield-alt"></i> Personal Safety Shield</h2>
+        <p>
+            Reflect on safety habits and actions that help you protect yourself in real-life situations.
+        </p>
+    </div>
+
+    <div class="quiz-container">
+        <p>
+            ✔ Trust your instincts<br>
+            ✔ Say NO clearly<br>
+            ✔ Move to safe places<br>
+            ✔ Call for help immediately
+        </p>
+    </div>
+
+    <div class="game-actions">
+        <button class="btn-game" onclick="completePasswordMission()">I Understand & Complete</button>
+        <button class="btn-game" onclick="closeGame('password-game')">Close</button>
+    </div>
+</div>
+
+<!-- Mission 3 Game -->
+<div class="game-container" id="mcq-game">
+    <div class="game-header">
+        <h2><i class="fas fa-balance-scale"></i> Women Safety & Rights Quiz</h2>
+        <p>
+            Answer the questions correctly to learn your rights and earn safety points.
+        </p>
+    </div>
+    <div id="mcq-questions"></div>
+    <div class="game-result" id="mcq-result"></div>
+    <div class="game-actions">
+        <button class="btn-game" onclick="checkMCQAnswers()">Submit Answers</button>
+        <button class="btn-game" onclick="closeGame('mcq-game')">Close</button>
+    </div>
+</div>
+
+<script>
+/* ================= GLOBAL HELPERS ================= */
+let totalXP = 0;
+
+// Load XP from localStorage on page load
+function loadUserData() {
+    const userData = localStorage.getItem('digitalGuardianUser');
+    if (userData) {
+        const user = JSON.parse(userData);
+        totalXP = user.points || 0;
+        document.getElementById('total-score').textContent = totalXP;
+        document.getElementById('user-points').textContent = `${totalXP} XP`;
+        document.getElementById('user-avatar-display').textContent = getAvatarIcon(user.avatar);
+        document.getElementById('user-name-display').textContent = user.name || 'Digital Guardian';
+    }
+}
+
+function getAvatarIcon(avatar) {
+    const map = {
+        'avatar1': '🛡️', 'avatar2': '⚔️', 'avatar3': '🥷', 'avatar4': '💻',
+        'avatar5': '🔒', 'avatar6': '🌐', 'avatar7': '🔐', 'avatar8': '🛡️',
+        'avatar9': '⚡', 'avatar10': '🦸', 'avatar11': '👩‍💻', 'avatar12': '👑'
+    };
+    return map[avatar] || '🛡️';
+}
+
+function updatePoints(xp) {
+    totalXP += xp;
+    document.getElementById('total-score').textContent = totalXP;
+    document.getElementById('user-points').textContent = `${totalXP} XP`;
+    
+    // Save to localStorage
+    const userData = localStorage.getItem('digitalGuardianUser');
+    if (userData) {
+        const user = JSON.parse(userData);
+        user.points = totalXP;
+        localStorage.setItem('digitalGuardianUser', JSON.stringify(user));
+    } else {
+        // Create new user if doesn't exist
+        localStorage.setItem('digitalGuardianUser', JSON.stringify({
+            name: 'Digital Guardian',
+            avatar: 'avatar1',
+            points: totalXP
+        }));
+    }
+    
+    console.log("XP Earned! Total:", totalXP);
+}
+
+function updateProgress(type, percent) {
+    document.getElementById(`${type}-progress`).style.width = percent + "%";
+    document.getElementById(`${type}-status`).innerText = "Completed";
+}
+
+function closeGame(id) {
+    document.getElementById(id).classList.remove('active');
+}
+
+// Load user data when page loads
+window.addEventListener('DOMContentLoaded', loadUserData);
+
+/* ================= MISSION 1 DATA ================= */
+const harassmentScenarios = [
+    { text: "A stranger keeps messaging after you asked them to stop.", isHarassment: true },
+    { text: "A colleague respectfully praises your work.", isHarassment: false },
+    { text: "Someone repeatedly follows you home.", isHarassment: true },
+    { text: "A friend asks consent before hugging.", isHarassment: false }
+];
+
+let selectedScenarios = [];
+
+function startPhishingGame() {
+    document.getElementById('phishing-game').classList.add('active');
+    const box = document.getElementById('phishing-emails');
+    box.innerHTML = '';
+    selectedScenarios = [];
+
+    harassmentScenarios.forEach((item, i) => {
+        const div = document.createElement('div');
+        div.className = 'phishing-email';
+        div.innerText = item.text;
+        div.onclick = () => toggleScenario(div, i);
+        box.appendChild(div);
+    });
+}
+
+function toggleScenario(el, i) {
+    el.classList.toggle('selected');
+    selectedScenarios.includes(i)
+        ? selectedScenarios = selectedScenarios.filter(x => x !== i)
+        : selectedScenarios.push(i);
+}
+
+function checkPhishingAnswers() {
+    const correct = harassmentScenarios.every(
+        (s, i) => s.isHarassment === selectedScenarios.includes(i)
+    );
+
+    const res = document.getElementById('phishing-result');
+    res.style.display = 'block';
+
+    if (correct) {
+        res.innerHTML = "✔ Correct! +150 XP";
+        updatePoints(150);
+        updateProgress('phishing', 100);
+    } else {
+        res.innerHTML = "✖ Some answers are wrong. Try again.";
+    }
+}
+
+/* ================= MISSION 2 ================= */
+function startPasswordGame() {
+    document.getElementById('password-game').classList.add('active');
+}
+
+function completePasswordMission() {
+    updatePoints(100);
+    updateProgress('password', 100);
+    alert("Mission Completed!");
+    closeGame('password-game');
+}
+
+/* ================= MISSION 3 ================= */
+const mcqQuestions = [
+    {
+        question: "Which is harassment?",
+        options: ["Respect", "Unwanted touch", "Polite talk", "Helping"],
+        correct: 1
+    },
+    {
+        question: "Safest action if threatened?",
+        options: ["Ignore", "Stay silent", "Seek help", "Fight alone"],
+        correct: 2
+    },
+    {
+        question: "Is online stalking a crime?",
+        options: ["No", "Only celebs", "Yes", "Only physical harm"],
+        correct: 2
+    },
+    {
+        question: "Women helpline in India?",
+        options: ["108", "181", "102", "1098"],
+        correct: 1
+    }
+];
+
+let mcqAnswers = {};
+
+function startMCQGame() {
+    document.getElementById('mcq-game').classList.add('active');
+    const box = document.getElementById('mcq-questions');
+    box.innerHTML = '';
+    mcqAnswers = {};
+
+    mcqQuestions.forEach((q, i) => {
+        box.innerHTML += `
+            <p><b>${i + 1}. ${q.question}</b></p>
+            ${q.options.map((o, j) =>
+                `<div class="mcq-option" onclick="selectMCQAnswer(${i},${j})">${o}</div>`
+            ).join('')}
+        `;
+    });
+}
+
+function selectMCQAnswer(q, a) {
+    mcqAnswers[q] = a;
+}
+
+function checkMCQAnswers() {
+    let score = 0;
+    mcqQuestions.forEach((q, i) => {
+        if (mcqAnswers[i] === q.correct) score++;
+    });
+
+    document.getElementById('mcq-result').innerHTML =
+        `✔ Score: ${score}/${mcqQuestions.length}`;
+    updatePoints(score * 50);
+    updateProgress('mcq', 100);
+}
+</script>
+

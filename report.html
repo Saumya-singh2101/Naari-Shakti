@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Incident - Nari Suraksha Saathi</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Internal CSS -->
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            padding-top: 80px;
+            background-color: #1a1a2e;
+            color: #ffffff;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: rgba(26, 26, 46, 0.95);
+            height: 80px;
+            display: flex;
+            align-items: center;
+        }
+
+        .go-home-btn {
+            margin-top: 15px;
+            display: inline-block;
+            border: 1px solid #0ff;
+            color: #0ff;
+            background: transparent;
+            padding: 8px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .go-home-btn:hover {
+            background: rgba(0, 255, 255, 0.15);
+            box-shadow: 0 0 10px #0ff;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            padding-top: 50px;
+        }
+
+        .modal-content {
+            background-color: #1a1a2e;
+            margin: 5% auto;
+            padding: 40px;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+            border: 1px solid #0ff;
+            box-shadow: 0 0 20px #0ff;
+        }
+
+        .loading-spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(0,255,255,0.3);
+            border-top-color: #0ff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+
+<body>
+
+<main>
+    <section class="page-header">
+        <div class="container">
+            <h2 data-i18n="report.title">Report an Incident</h2>
+            <p class="page-subtitle" data-i18n="report.subtitle">
+                Your voice matters. Report safely and discreetly.
+            </p>
+
+            <!-- ✅ GO TO HOME BUTTON -->
+            <a href="index.html" class="go-home-btn">← Go to Home</a>
+        </div>
+    </section>
+
+    <section class="form-section">
+        <div class="container">
+
+            <div class="disclaimer-box">
+                <h3>Important Prototype Notice</h3>
+                <p>
+                    <strong>This is a prototype demonstration.</strong>
+                    Your report will <strong>NOT</strong> be sent to authorities.
+                </p>
+            </div>
+
+            <form id="incidentForm" class="incident-form">
+
+                <div class="form-group">
+                    <label>Type of Incident *</label>
+                    <select required>
+                        <option value="">Select type...</option>
+                        <option>Verbal Harassment</option>
+                        <option>Physical Harassment</option>
+                        <option>Sexual Harassment</option>
+                        <option>Discrimination</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>How often has this happened? *</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="freq" required> Once</label>
+                        <label><input type="radio" name="freq"> Few times</label>
+                        <label><input type="radio" name="freq"> Regularly</label>
+                        <label><input type="radio" name="freq"> Ongoing</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Brief Description *</label>
+                    <textarea rows="5" required placeholder="Please describe what happened..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Location</label>
+                    <input type="text" placeholder="Where did this happen?">
+                </div>
+
+                <div class="form-group">
+                    <label>Date of Incident</label>
+                    <input type="date">
+                </div>
+
+                <div class="form-group">
+                    <label>Remain Anonymous? *</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="anon" required> Yes</label>
+                        <label><input type="radio" name="anon"> No</label>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Submit Report</button>
+                    <button type="reset" class="btn btn-secondary">Clear</button>
+                </div>
+
+            </form>
+
+            <!-- THANK YOU MESSAGE -->
+            <div id="thankYouMessage" style="display:none;">
+                <h3>Thank You for Sharing</h3>
+                <p>Your courage matters.</p>
+
+                <a href="help.html" class="btn btn-primary">Find Support</a>
+
+                <!-- ✅ GO HOME AFTER SUBMISSION -->
+                <a href="index.html" class="btn btn-secondary" style="margin-left:10px;">
+                    Go to Home
+                </a>
+            </div>
+
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="container">
+        <p>© 2024 Nari Suraksha Saathi. Prototype for women's safety.</p>
+        <p>Made with ❤️ for women’s safety</p>
+    </div>
+</footer>
+
+<script src="translations.js"></script>
+<script src="script2.js"></script>
+
+</body>
+</html>
+
+

@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protectee Dashboard - Digital Guardian</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/neon-theme.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            padding-top: 80px;
+            background: #0a0a0a;
+            color: #ffffff;
+            font-family: 'Rajdhani', sans-serif;
+        }
+        
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .page-header h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: 3rem;
+            color: #00ffff;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px #00ffff;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+        }
+        
+        .sidebar {
+            background: #1a1a2e;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            height: fit-content;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .section-card {
+            background: #1a1a2e;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+        
+        .section-card h2 {
+            color: #00ffff;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+        
+        .guardians-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .guardian-card {
+            background: rgba(0, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+        
+        .guardian-card:hover {
+            background: rgba(0, 255, 255, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 255, 255, 0.3);
+        }
+        
+        .guardian-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .guardian-avatar {
+            font-size: 3rem;
+        }
+        
+        .guardian-info {
+            flex: 1;
+        }
+        
+        .guardian-name {
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .guardian-role {
+            color: #00ffff;
+            font-size: 0.9rem;
+        }
+        
+        .guardian-rating {
+            color: #ffff00;
+            margin-bottom: 0.5rem;
+        }
+        
+        .guardian-expertise {
+            color: #b0b0b0;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+        
+        .guardian-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            color: #00ffff;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+        
+        .stat-label {
+            color: #b0b0b0;
+            font-size: 0.85rem;
+        }
+        
+        .request-btn {
+            background: rgba(0, 255, 255, 0.2);
+            border: 1px solid #00ffff;
+            color: #00ffff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            width: 100%;
+        }
+        
+        .request-btn:hover {
+            background: #00ffff;
+            color: #0a0a0a;
+        }
+        
+        .request-btn.pending {
+            background: rgba(255, 255, 0, 0.2);
+            border-color: #ffff00;
+            color: #ffff00;
+            cursor: not-allowed;
+        }
+        
+        .request-btn.connected {
+            background: rgba(0, 255, 0, 0.2);
+            border-color: #00ff00;
+            color: #00ff00;
+        }
+        
+        .chat-section {
+            margin-top: 2rem;
+        }
+        
+        .chat-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+        }
+        
+        .chat-message {
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            background: rgba(0, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+        
+        .chat-message.own {
+            background: rgba(0, 255, 255, 0.2);
+            text-align: right;
+        }
+        
+        .chat-input-area {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .chat-input {
+            flex: 1;
+            background: #2a2a2a;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 10px;
+            color: #ffffff;
+        }
+        
+        .send-chat-btn {
+            background: #00ffff;
+            color: #0a0a0a;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .back-btn {
+            position: fixed;
+            top: 100px;
+            left: 20px;
+            background: rgba(0, 255, 255, 0.2);
+            border: 1px solid #00ffff;
+            color: #00ffff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            z-index: 100;
+        }
+        
+        .back-btn:hover {
+            background: rgba(0, 255, 255, 0.3);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+        
+        .no-guardian {
+            text-align: center;
+            padding: 3rem;
+            color: #b0b0b0;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-shield-alt"></i>
+                <span>Digital Guardian</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="community.html" class="nav-link">Community</a>
+                <a href="missions.html" class="nav-link">Missions</a>
+                <a href="learning.html" class="nav-link">Learning</a>
+            </div>
+            <div class="nav-auth">
+                <div id="user-profile" class="user-info">
+                    <span id="user-avatar-display" class="user-avatar">🛡️</span>
+                    <span id="user-name-display" class="user-name">Digital Guardian</span>
+                    <span id="user-points" class="user-points">0 XP</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <a href="index.html" class="back-btn">
+        <i class="fas fa-arrow-left"></i> Back to Home
+    </a>
+
+    <div class="dashboard-container">
+        <div class="page-header">
+            <h1 class="neon-text">Protectee Dashboard</h1>
+            <p>Choose a guardian and get personalized cybersecurity guidance</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="sidebar">
+                <div style="text-align: center; margin-bottom: 1rem;">
+                    <div id="profile-avatar" style="font-size: 4rem; margin-bottom: 0.5rem;">🛡️</div>
+                    <div id="profile-name" style="font-weight: 600; color: #ffffff;">Protectee</div>
+                    <div style="color: #00ffff; font-size: 0.9rem;">Protectee (Learner)</div>
+                </div>
+                <div style="color: #b0b0b0; margin-bottom: 0.5rem;">Points: <span id="profile-points" style="color: #00ff00;">0</span></div>
+                <div style="color: #b0b0b0;">Level: <span id="profile-level" style="color: #00ffff;">1</span></div>
+            </div>
+
+            <div class="main-content">
+                <!-- Choose Guardian -->
+                <div class="section-card">
+                    <h2><i class="fas fa-user-shield"></i> Choose Your Guardian</h2>
+                    <div class="guardians-grid" id="guardians-grid">
+                        <!-- Guardians loaded dynamically -->
+                    </div>
+                </div>
+
+                <!-- Chat with Guardian -->
+                <div class="section-card chat-section" id="chat-section" style="display: none;">
+                    <h2><i class="fas fa-comments"></i> Chat with Your Guardian</h2>
+                    <div id="current-guardian-info" style="margin-bottom: 1rem; padding: 1rem; background: rgba(0, 255, 255, 0.1); border-radius: 8px;">
+                        <!-- Current guardian info -->
+                    </div>
+                    <div class="chat-container" id="chat-container">
+                        <!-- Chat messages -->
+                    </div>
+                    <div class="chat-input-area">
+                        <input type="text" class="chat-input" id="chat-input" placeholder="Ask your guardian about cybersecurity...">
+                        <button class="send-chat-btn" id="send-chat-btn"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function loadUserData() {
+            const userData = localStorage.getItem('digitalGuardianUser');
+            if (userData) {
+                const user = JSON.parse(userData);
+                document.getElementById('user-avatar-display').textContent = getAvatarIcon(user.avatar);
+                document.getElementById('user-name-display').textContent = user.name;
+                document.getElementById('user-points').textContent = `${user.points || 0} XP`;
+                document.getElementById('profile-avatar').textContent = getAvatarIcon(user.avatar);
+                document.getElementById('profile-name').textContent = user.name;
+                document.getElementById('profile-points').textContent = user.points || 0;
+                document.getElementById('profile-level').textContent = user.level || 1;
+            }
+        }
+
+        function getAvatarIcon(avatar) {
+            const map = {
+                'avatar1': '🛡️', 'avatar2': '⚔️', 'avatar3': '🥷', 'avatar4': '💻',
+                'avatar5': '🔒', 'avatar6': '🌐', 'avatar7': '🔐', 'avatar8': '🛡️',
+                'avatar9': '⚡', 'avatar10': '🦸', 'avatar11': '👩‍💻', 'avatar12': '👑'
+            };
+            return map[avatar] || '🛡️';
+        }
+
+        const guardians = [
+            { 
+        name: 'Dr. Ananya Rao',
+        role: 'Psychologist & Trauma Counselor',
+                avatar: '🛡️', 
+                expertise: 'Emotional Support, Trauma Healing, Confidence Building',
+        rating: 5,
+        mentees: 30,
+        experience: '9 years'
+            },
+            { 
+                name: 'Inspector Kavita Sharma',
+        role: 'Women Safety Officer',
+                avatar: '⚔️', 
+               expertise: 'Emergency Response, FIR Guidance, Threat Handling',
+        rating: 5,
+        mentees: 18,
+        experience: '13 years'
+            },
+            { 
+                name: 'Dr. Priya Patel', 
+                role: 'Security Researcher', 
+                avatar: '💻', 
+                expertise: 'Cryptography, Secure Coding, Vulnerability Research',
+                rating: 5,
+                mentees: 8,
+                experience: '12 years'
+            },
+            { 
+                name: 'Emma Wilson', 
+                role: 'Incident Response Specialist', 
+                avatar: '🔒', 
+                expertise: 'Threat Detection, Digital Forensics, Malware Analysis',
+                rating: 5,
+                mentees: 10,
+                experience: '7 years'
+            },
+            { 
+        name: 'Neha Kapoor',
+        role: 'Self-Defense Trainer',
+
+                avatar: '🌐', 
+             expertise: 'Physical Safety, Escape Techniques, Situational Awareness',
+        rating: 5,
+        mentees: 25,
+        experience: '7 years'
+            },
+            { 
+               name: 'Ritu Malhotra',
+        role: 'Women Helpline Coordinator',
+                avatar: '🔐', 
+                expertise: 'Emergency Support, Helpline Assistance, Case Follow-ups',
+        rating: 5,
+        mentees: 40,
+        experience: '8 years'
+
+            }
+        ];
+
+        function loadGuardians() {
+            const grid = document.getElementById('guardians-grid');
+            grid.innerHTML = '';
+            
+            const requests = JSON.parse(localStorage.getItem('guardianRequests') || '{}');
+            const connections = JSON.parse(localStorage.getItem('guardianConnections') || '[]');
+            
+            guardians.forEach(guardian => {
+                const hasRequest = requests[guardian.name] === 'pending';
+                const isConnected = connections.includes(guardian.name);
+                
+                const card = document.createElement('div');
+                card.className = 'guardian-card';
+                card.innerHTML = `
+                    <div class="guardian-header">
+                        <div class="guardian-avatar">${guardian.avatar}</div>
+                        <div class="guardian-info">
+                            <div class="guardian-name">${guardian.name}</div>
+                            <div class="guardian-role">${guardian.role}</div>
+                        </div>
+                    </div>
+                    <div class="guardian-rating">${'⭐'.repeat(guardian.rating)}</div>
+                    <div class="guardian-expertise">${guardian.expertise}</div>
+                    <div class="guardian-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">${guardian.mentees}</div>
+                            <div class="stat-label">Mentees</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">${guardian.experience}</div>
+                            <div class="stat-label">Experience</div>
+                        </div>
+                    </div>
+                    <button class="request-btn ${isConnected ? 'connected' : hasRequest ? 'pending' : ''}" 
+                            onclick="${isConnected ? `openChat('${guardian.name}')` : hasRequest ? '' : `sendRequest('${guardian.name}')`}" 
+                            ${hasRequest ? 'disabled' : ''}>
+                        ${isConnected ? '<i class="fas fa-check"></i> Connected - Chat Now' : hasRequest ? '<i class="fas fa-clock"></i> Request Pending' : '<i class="fas fa-user-plus"></i> Send Request'}
+                    </button>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function sendRequest(guardianName) {
+            const requests = JSON.parse(localStorage.getItem('guardianRequests') || '{}');
+            requests[guardianName] = 'pending';
+            localStorage.setItem('guardianRequests', JSON.stringify(requests));
+            
+            // Simulate guardian accepting after 2 seconds
+            setTimeout(() => {
+                const connections = JSON.parse(localStorage.getItem('guardianConnections') || '[]');
+                if (!connections.includes(guardianName)) {
+                    connections.push(guardianName);
+                    localStorage.setItem('guardianConnections', JSON.stringify(connections));
+                    delete requests[guardianName];
+                    localStorage.setItem('guardianRequests', JSON.stringify(requests));
+                    alert(`${guardianName} has accepted your request! You can now chat with them.`);
+                    loadGuardians();
+                }
+            }, 2000);
+            
+            alert(`Request sent to ${guardianName}! Waiting for acceptance...`);
+            loadGuardians();
+        }
+
+        function openChat(guardianName) {
+            const guardian = guardians.find(g => g.name === guardianName);
+            if (!guardian) return;
+            
+            document.getElementById('chat-section').style.display = 'block';
+            document.getElementById('current-guardian-info').innerHTML = `
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div style="font-size: 2rem;">${guardian.avatar}</div>
+                    <div>
+                        <div style="font-weight: 600; color: #00ffff; font-size: 1.2rem;">${guardian.name}</div>
+                        <div style="color: #b0b0b0;">${guardian.role}</div>
+                    </div>
+                </div>
+            `;
+            
+            loadChatMessages(guardianName);
+            
+            // Scroll to chat
+            document.getElementById('chat-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function loadChatMessages(guardianName) {
+            const chats = JSON.parse(localStorage.getItem('guardianChats') || '{}');
+            const messages = chats[guardianName] || [];
+            const container = document.getElementById('chat-container');
+            
+            container.innerHTML = '';
+            if (messages.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: #b0b0b0; padding: 2rem;">Start a conversation with your guardian! Ask about cybersecurity, get advice, or share your concerns.</div>';
+            } else {
+                messages.forEach(msg => {
+                    const msgDiv = document.createElement('div');
+                    msgDiv.className = `chat-message ${msg.sender === 'me' ? 'own' : ''}`;
+                    msgDiv.textContent = msg.text;
+                    container.appendChild(msgDiv);
+                });
+            }
+            container.scrollTop = container.scrollHeight;
+        }
+
+        document.getElementById('send-chat-btn').addEventListener('click', sendMessage);
+        document.getElementById('chat-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if (!text) return;
+            
+            const currentGuardian = document.querySelector('#current-guardian-info .guardian-name')?.textContent;
+            if (!currentGuardian) {
+                alert('Please select a guardian first!');
+                return;
+            }
+            
+            const chats = JSON.parse(localStorage.getItem('guardianChats') || '{}');
+            if (!chats[currentGuardian]) chats[currentGuardian] = [];
+            
+            chats[currentGuardian].push({
+                sender: 'me',
+                text: text,
+                time: new Date().toLocaleTimeString()
+            });
+            
+            // Simulate guardian response
+            setTimeout(() => {
+                chats[currentGuardian].push({
+                    sender: 'guardian',
+                    text: getGuardianResponse(text),
+                    time: new Date().toLocaleTimeString()
+                });
+                localStorage.setItem('guardianChats', JSON.stringify(chats));
+                loadChatMessages(currentGuardian);
+            }, 1000);
+            
+            localStorage.setItem('guardianChats', JSON.stringify(chats));
+            loadChatMessages(currentGuardian);
+            input.value = '';
+        }
+
+        function getGuardianResponse(query) {
+            const lowerQuery = query.toLowerCase();
+            if (lowerQuery.includes('password')) {
+                return 'Great question! Strong passwords should be at least 12 characters, include uppercase, lowercase, numbers, and symbols. Never reuse passwords across different sites. Consider using a password manager!';
+            } else if (lowerQuery.includes('phishing')) {
+                return 'Phishing is when attackers send fake emails or messages to trick you. Always verify the sender, check for spelling errors, and never click suspicious links. When in doubt, contact the organization directly!';
+            } else if (lowerQuery.includes('help') || lowerQuery.includes('advice')) {
+                return 'I\'m here to help! Some key cybersecurity practices: enable 2FA on all accounts, keep software updated, be cautious with public WiFi, and regularly review your privacy settings. What specific area would you like to focus on?';
+            } else {
+                return 'That\'s an important topic! For cybersecurity best practices, always stay updated, use strong authentication, be cautious online, and don\'t hesitate to ask if you need clarification on anything specific.';
+            }
+        }
+
+        loadUserData();
+        loadGuardians();
+    </script>
+</body>
+</html>
+

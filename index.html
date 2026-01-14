@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naari Shakti </title>
+    <meta name="description" content="A platform empowering women through sexual harassment awareness, peer mentorship, community support, and personal safety training.
+">
+    <meta name="keywords" content="Raise your voice, women empowerment, mentorship, community, education">
+    
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/neon-theme.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* SCROLLING FIX: Ensures the body can expand and scroll vertically */
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            /* Remove this line if it was set in your external CSS and was causing the issue */
+            /* overflow: hidden; */ 
+            min-height: 100vh; /* Ensure body takes full viewport height */
+            margin: 0; /* Important: Remove default margins */
+            padding-top: 80px; /* Space for the fixed navbar */
+            background-color: #1a1a2e; /* Example background for cyberpunk theme */
+            color: #ffffff; /* Default text color */
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        /* NAVIGATION FIX: Ensures the navbar doesn't cover content and sticks to the top */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000; /* High z-index to stay on top */
+            background-color: rgba(26, 26, 46, 0.95); /* Semi-transparent background */
+            transition: background-color 0.3s;
+            height: 80px; /* Fixed height for consistent padding */
+            display: flex;
+            align-items: center;
+        }
+
+        /* LOADING SCREEN FIX: Must be absolutely positioned and hidden after load */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0d0d1a;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+            opacity: 1;
+            visibility: visible;
+        }
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none; /* Crucial: Allows clicking/scrolling the page underneath */
+        }
+        
+        /* MODAL STYLES (REQUIRED FOR MODAL TO WORK) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; 
+            z-index: 1001; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.8); 
+            padding-top: 50px;
+        }
+        .modal-content {
+            background-color: #1a1a2e;
+            margin: 5% auto; 
+            padding: 40px;
+            border: 1px solid #0ff; /* Neon border */
+            width: 80%; 
+            max-width: 500px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px #0ff;
+            position: relative;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Essential utility class for active state */
+        .active {
+            color: #0ff !important;
+        }
+        
+        /* Avatar Selection Styles */
+        .avatar-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .avatar-option {
+            width: 60px;
+            height: 60px;
+            border: 2px solid transparent;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #1f1f1f;
+        }
+        
+        .avatar-option:hover {
+            border-color: #0ff;
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+        
+        .avatar-option.selected {
+            border-color: #0ff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+            background: rgba(0, 255, 255, 0.1);
+        }
+        
+        /* User Menu Styles */
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-avatar {
+            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #1f1f1f;
+            border: 1px solid #0ff;
+        }
+        
+        .user-name {
+            color: #ffffff;
+            font-weight: 500;
+        }
+        
+        .user-points {
+            color: #00ff00;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .btn-sm {
+            padding: 5px 15px;
+            font-size: 0.9rem;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(0, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #0ff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+    </style>
+</head>
+<body>
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="neon-logo">
+                <i class="fas fa-shield-alt"></i>
+                <h2>Naari Sha</h2>
+            </div>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+            <p class="loading-text">Initializing Security Protocols...</p>
+        </div>
+    </div>
+
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-shield-alt"></i>
+                <span>Naari Shakti</span>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-link active">Home</a>
+                <a href="community.html" class="nav-link">Community</a>
+                <a href="missions.html" class="nav-link">Missions</a>
+                <a href="learning.html" class="nav-link">Learning</a>
+                <a href="report.html" class="nav-link">File a Complain</a>
+            </div>
+            <div class="nav-auth" id="nav-auth">
+                <div id="user-profile" class="user-info">
+                    <span id="user-avatar-display" class="user-avatar">🛡️</span>
+                    <span id="user-name-display" class="user-name">Naari Shakti</span>
+                    <span id="user-points" class="user-points">0 XP</span>
+                </div>
+            </div>
+            <div class="nav-toggle" id="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-background"></div>
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">
+                        <span class="neon-text">NAARI</span>
+                        <span class="neon-text-secondary">SHAKTI</span>
+                    </h1>
+                    <p class="hero-subtitle">Empowering Women Through Cybersecurity Education & Community</p>
+                    <p class="hero-description">Join a supportive community where experienced Naari Shakti mentors guide newcomers on sexual harassment awareness, personal safety, and empowerment.
+.</p>
+                    
+                    <div class="hero-actions">
+                        <div class="role-selection">
+                            <div class="role-card" id="guardian-role">
+                                <div class="role-icon">
+                                    <i class="fas fa-user-shield"></i>
+                                </div>
+                                <h3>Join as Guardian</h3>
+                                <p>Experienced mentor ready to guide others</p>
+                                <button class="btn btn-primary role-btn" data-role="guardian">Become a Guardian</button>
+                            </div>
+                            <div class="role-card" id="protectee-role">
+                                <div class="role-icon">
+                                    <i class="fas fa-graduation-cap"></i>
+                                </div>
+                                <h3>Join as Protectee</h3>
+                                <p>Newcomer seeking guidance & support</p>
+                                <button class="btn btn-secondary role-btn" data-role="protectee">Start Learning</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="features">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title neon-text">Core Features</h2>
+                    <p class="section-subtitle">Comprehensive cybersecurity education through community and technology</p>
+                </div>
+                
+                <div class="features-grid">
+                    <a href="community.html" style="text-decoration: none; color: inherit;">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h3>Peer Mentorship & Community</h3>
+                            <p>CConnect with experienced Guardians who guide Protectees through sexual harassment awareness, personal safety, and empowerment.
+.</p>
+                            <ul class="feature-list">
+                                <li>One-on-one mentorship</li>
+                                <li>Group discussions</li>
+                                <li>Resource sharing</li>
+                                <li>Support forums</li>
+                            </ul>
+                            <div style="margin-top: 1rem; color: #00ffff; font-weight: 600;">
+                                <i class="fas fa-arrow-right"></i> Explore Community
+                            </div>
+                        </div>
+                    </a>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3>AI Smart Assistant</h3>
+                        <p>AI-powered assistant that helps detect threats and provides real-time security guidance.</p>
+                        <ul class="feature-list">
+                            <li>Threat detection alerts</li>
+                            <li>Real-time safety tips</li>
+                            <li>Phishing detection</li>
+                            <li>Interactive security quizzes</li>
+                        </ul>
+                    </div>
+
+                    <a href="missions.html" style="text-decoration: none; color: inherit;">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <h3>Weekly Missions & Challenges</h3>
+                         <p>Gamified learning through interactive missions that build awareness, safety skills, and personal empowerment progressively.</p>
+<ul class="feature-list">
+    <li>"Recognize Harassment" challenges</li>
+    <li>"Safety First" tasks</li>
+    <li>Points & badge system</li>
+    <li>Leaderboard rankings</li>
+</ul>
+
+                            </ul>
+                            <div style="margin-top: 1rem; color: #00ffff; font-weight: 600;">
+                                <i class="fas fa-arrow-right"></i> Start Missions
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="learning.html" style="text-decoration: none; color: inherit;">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <h3>Sexual Harassment Awareness & Empowerment</h3>
+<p>Comprehensive learning modules focused on recognizing, preventing, and addressing sexual harassment while promoting personal empowerment and safety.</p>
+
+                            <ul class="feature-list">
+                              <li>Understanding sexual harassment</li>
+<li>Rights & workplace protection</li>
+<li>Reporting & support mechanisms</li>
+<li>Personal empowerment & leadership</li>
+
+                            </ul>
+                            <div style="margin-top: 1rem; color: #00ffff; font-weight: 600;">
+                                <i class="fas fa-arrow-right"></i> Start Learning
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="community" class="community">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title neon-text">Community Space</h2>
+                    <p class="section-subtitle">A safe space for sharing experiences and supporting each other</p>
+                </div>
+
+                <div class="community-features">
+                    <div class="community-card">
+                        <div class="community-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h3>Discussion Forums</h3>
+                        <p>Share experiences, ask questions, and get support from the community.</p>
+                    </div>
+                    
+                    <div class="community-card">
+                        <div class="community-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <h3>Resource Hub</h3>
+                        <p>Access curated articles, guides, videos, and safety tips from experts.</p>
+                    </div>
+                    
+                    <div class="community-card">
+                        <div class="community-icon">
+                            <i class="fas fa-calendar"></i>
+                        </div>
+                        <h3>Events & Workshops</h3>
+                        <p>Join webinars, hackathons, and workshops with industry experts.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="missions" class="missions">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title neon-text">Current Missions</h2>
+                    <p class="section-subtitle">Level up your cybersecurity skills with these challenges</p>
+                </div>
+
+                <div class="missions-grid">
+                    <div class="mission-card">
+                        <div class="mission-header">
+                            <div class="mission-icon">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <span class="mission-points">+150 XP</span>
+                        </div>
+                        <h3>Phishing Detective</h3>
+                        <p>Can you spot the fake emails? Test your phishing detection skills.</p>
+                        <div class="mission-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 65%;"></div>
+                            </div>
+                            <span>65% Complete</span>
+                        </div>
+                        <button class="btn btn-outline">Continue Mission</button>
+                    </div>
+
+                    <div class="mission-card">
+                        <div class="mission-header">
+                            <div class="mission-icon">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                            <span class="mission-points">+200 XP</span>
+                        </div>
+                        <h3>Password Fortress</h3>
+                        <p>Learn to create and manage ultra-secure passwords like a pro.</p>
+                        <div class="mission-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 0%;"></div>
+                            </div>
+                            <span>Not Started</span>
+                        </div>
+                        <button class="btn btn-primary">Start Mission</button>
+                    </div>
+
+                    <div class="mission-card">
+                        <div class="mission-header">
+                            <div class="mission-icon">
+                                <i class="fas fa-wifi"></i>
+                            </div>
+                            <span class="mission-points">+175 XP</span>
+                        </div>
+                        <h3>WiFi Security Scan</h3>
+                        <p>Secure your home network and learn about WiFi vulnerabilities.</p>
+                        <div class="mission-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 100%;"></div>
+                            </div>
+                            <span>Completed</span>
+                        </div>
+                        <button class="btn btn-success" disabled>
+                            <i class="fas fa-check"></i> Completed
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="onboarding-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="auth-container">
+                <h2>Welcome to Naari Shakti! 🛡️</h2>
+                <p style="text-align: center; color: #b0b0b0; margin-bottom: 2rem;">Let's personalize your experience</p>
+                <form id="onboarding-form">
+                    <div class="input-group">
+                        <label for="user-name">What should we call you?</label>
+                        <input type="text" id="user-name" placeholder="Enter your name" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Choose Your Avatar:</label>
+                        <div id="avatar-selection" class="avatar-grid">
+                            <!-- Avatars will be loaded dynamically -->
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">Start Your Journey</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Naari Shakti</span>
+                    </div>
+                    <p>Empowering women through sexual harassment awareness, personal safety education, and community support.
+.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Community</h3>
+                    <ul>
+                        <li><a href="#forums">Forums</a></li>
+                        <li><a href="#events">Events</a></li>
+                        <li><a href="#resources">Resources</a></li>
+                        <li><a href="#support">Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Features</h3>
+                    <ul>
+                        <li><a href="#mentorship">Mentorship</a></li>
+                        <li><a href="#missions">Missions</a></li>
+                        <li><a href="#learning">Learning</a></li>
+                        <li><a href="#ai-assistant">AI Assistant</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Naari Shakti. All rights reserved. | Built with 💜 for women,by the women</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/animations.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navbar = document.getElementById('navbar');
+            const navToggle = document.getElementById('nav-toggle');
+            const navMenu = document.getElementById('nav-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const onboardingModal = document.getElementById('onboarding-modal');
+            const closeBtn = document.querySelector('.modal-content .close');
+            const roleButtons = document.querySelectorAll('.role-btn');
+            
+            // User data management (localStorage)
+            const UserData = {
+                get: () => {
+                    const data = localStorage.getItem('digitalGuardianUser');
+                    return data ? JSON.parse(data) : null;
+                },
+                set: (data) => {
+                    localStorage.setItem('digitalGuardianUser', JSON.stringify(data));
+                },
+                clear: () => {
+                    localStorage.removeItem('digitalGuardianUser');
+                },
+                updatePoints: (points) => {
+                    const user = UserData.get();
+                    if (user) {
+                        user.points = (user.points || 0) + points;
+                        user.level = Math.floor(user.points / 100) + 1;
+                        UserData.set(user);
+                        updateUserUI();
+                    }
+                }
+            };
+            
+            /* --- 1. SCROLLING AND NAVIGATION FIXES --- */
+
+            // Toggle Mobile Menu
+            navToggle.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                navToggle.classList.toggle('active');
+            });
+
+            // Smooth Scroll for Nav Links (and close mobile menu)
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                    navMenu.classList.remove('active');
+                    navToggle.classList.remove('active');
+                });
+            });
+
+            // Sticky Header (Optional: changes background on scroll)
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.style.backgroundColor = 'rgba(26, 26, 46, 1)'; // Solid color on scroll
+                } else {
+                    navbar.style.backgroundColor = 'rgba(26, 26, 46, 0.95)'; // Slightly transparent at top
+                }
+            });
+
+            /* --- 2. LOADING SCREEN CONTROL --- */
+            
+            // Hides the loading screen after the page content is fully loaded
+            window.addEventListener('load', () => {
+                const loadingScreen = document.getElementById('loading-screen');
+                // Adds the 'hidden' class which has an opacity and visibility transition in the CSS
+                loadingScreen.classList.add('hidden'); 
+            });
+
+
+            /* --- 3. ONBOARDING MODAL --- */
+            let selectedAvatar = 'avatar1';
+            let selectedRole = null;
+            const avatarSelection = document.getElementById('avatar-selection');
+            
+            // Avatar options
+            const avatars = [
+                { id: 'avatar1', icon: '🛡️', name: 'Guardian Shield' },
+                { id: 'avatar2', icon: '⚔️', name: 'Cyber Warrior' },
+                { id: 'avatar3', icon: '🥷', name: 'Digital Ninja' },
+                { id: 'avatar4', icon: '💻', name: 'Code Master' },
+                { id: 'avatar5', icon: '🔒', name: 'Security Expert' },
+                { id: 'avatar6', icon: '🌐', name: 'Network Guardian' },
+                { id: 'avatar7', icon: '🔐', name: 'Data Protector' },
+                { id: 'avatar8', icon: '🛡️', name: 'Cyber Defender' },
+                { id: 'avatar9', icon: '⚡', name: 'Tech Guardian' },
+                { id: 'avatar10', icon: '🦸', name: 'Digital Hero' },
+                { id: 'avatar11', icon: '👩‍💻', name: 'Code Guardian' },
+                { id: 'avatar12', icon: '👑', name: 'Security Queen' }
+            ];
+
+            function loadAvatars() {
+                avatarSelection.innerHTML = '';
+                avatars.forEach(avatar => {
+                    const avatarOption = document.createElement('div');
+                    avatarOption.className = 'avatar-option';
+                    if (avatar.id === selectedAvatar) {
+                        avatarOption.classList.add('selected');
+                    }
+                    avatarOption.innerHTML = `<span>${avatar.icon}</span>`;
+                    avatarOption.title = avatar.name;
+                    avatarOption.addEventListener('click', () => {
+                        document.querySelectorAll('.avatar-option').forEach(opt => opt.classList.remove('selected'));
+                        avatarOption.classList.add('selected');
+                        selectedAvatar = avatar.id;
+                    });
+                    avatarSelection.appendChild(avatarOption);
+                });
+            }
+
+            // Handle Role Selection - Open Onboarding or Dashboard
+            roleButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    selectedRole = this.dataset.role;
+                    const user = UserData.get();
+                    
+                    if (user && user.role === selectedRole) {
+                        // User already has this role, go to dashboard
+                        if (selectedRole === 'guardian') {
+                            window.location.href = 'guardian-dashboard.html';
+                        } else {
+                            window.location.href = 'protectee-dashboard.html';
+                        }
+                    } else {
+                        // New user or changing role, show onboarding
+                        onboardingModal.style.display = 'block';
+                        loadAvatars();
+                    }
+                });
+            });
+
+            // Close Modal
+            closeBtn?.addEventListener('click', () => {
+                onboardingModal.style.display = 'none';
+            });
+
+            // Close Modal on outside click
+            window.addEventListener('click', (event) => {
+                if (event.target === onboardingModal) {
+                    onboardingModal.style.display = 'none';
+                }
+            });
+
+            /* --- 4. ONBOARDING FORM SUBMISSION --- */
+            const onboardingForm = document.getElementById('onboarding-form');
+            
+            onboardingForm?.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('user-name').value.trim();
+                
+                if (!name) {
+                    showNotification('Please enter your name', 'error');
+                    return;
+                }
+
+                // Save user data to localStorage
+                const userData = {
+                    name: name,
+                    avatar: selectedAvatar,
+                    role: selectedRole || 'protectee',
+                    points: 0,
+                    level: 1,
+                    completedMissions: []
+                };
+                
+                UserData.set(userData);
+                
+                showNotification(`Welcome, ${name}! 🎉 Let's start your cybersecurity journey!`, 'success');
+                onboardingModal.style.display = 'none';
+                updateUserUI();
+                onboardingForm.reset();
+                
+                // Redirect to appropriate dashboard
+                setTimeout(() => {
+                    if (selectedRole === 'guardian') {
+                        window.location.href = 'guardian-dashboard.html';
+                    } else {
+                        window.location.href = 'protectee-dashboard.html';
+                    }
+                }, 1500);
+            });
+
+            /* --- 5. USER UI MANAGEMENT --- */
+            function updateUserUI() {
+                const user = UserData.get();
+                const userAvatarDisplay = document.getElementById('user-avatar-display');
+                const userNameDisplay = document.getElementById('user-name-display');
+                const userPointsDisplay = document.getElementById('user-points');
+
+                if (user) {
+                    const avatarMap = {
+                        'avatar1': '🛡️', 'avatar2': '⚔️', 'avatar3': '🥷', 'avatar4': '💻',
+                        'avatar5': '🔒', 'avatar6': '🌐', 'avatar7': '🔐', 'avatar8': '🛡️',
+                        'avatar9': '⚡', 'avatar10': '🦸', 'avatar11': '👩‍💻', 'avatar12': '👑'
+                    };
+                    
+                    if (userAvatarDisplay) userAvatarDisplay.textContent = avatarMap[user.avatar] || '🛡️';
+                    if (userNameDisplay) userNameDisplay.textContent = user.name;
+                    if (userPointsDisplay) userPointsDisplay.textContent = `${user.points || 0} XP`;
+                } else {
+                    if (userAvatarDisplay) userAvatarDisplay.textContent = '🛡️';
+                    if (userNameDisplay) userNameDisplay.textContent = 'Naari Shakti';
+                    if (userPointsDisplay) userPointsDisplay.textContent = '0 XP';
+                }
+            }
+
+            // Initialize user UI
+            updateUserUI();
+
+            /* --- 6. MISSIONS SYSTEM --- */
+            function initializeMissions() {
+                const missionCards = document.querySelectorAll('.mission-card');
+                
+                missionCards.forEach((card, index) => {
+                    const missionId = `mission-${index + 1}`;
+                    const btn = card.querySelector('.btn');
+                    const progressFill = card.querySelector('.progress-fill');
+                    const progressText = card.querySelector('.mission-progress span');
+                    const pointsText = card.querySelector('.mission-points');
+                    
+                    // Get mission data from localStorage
+                    const user = UserData.get();
+                    const missionProgress = user?.missionProgress || {};
+                    const currentProgress = missionProgress[missionId] || 0;
+                    
+                    // Update UI based on progress
+                    if (currentProgress > 0 && currentProgress < 100) {
+                        progressFill.style.width = `${currentProgress}%`;
+                        progressText.textContent = `${currentProgress}% Complete`;
+                        btn.textContent = 'Continue Mission';
+                        btn.classList.remove('btn-primary');
+                        btn.classList.add('btn-outline');
+                    } else if (currentProgress >= 100) {
+                        progressFill.style.width = '100%';
+                        progressText.textContent = 'Completed';
+                        btn.innerHTML = '<i class="fas fa-check"></i> Completed';
+                        btn.classList.remove('btn-outline', 'btn-primary');
+                        btn.classList.add('btn-success');
+                        btn.disabled = true;
+                    }
+                    
+                    // Mission button click handler
+                    if (btn && !btn.disabled) {
+                        btn.addEventListener('click', () => {
+                            const user = UserData.get();
+                            if (!user) {
+                                showNotification('Please set up your profile first!', 'error');
+                                return;
+                            }
+                            
+                            let missionProgress = user.missionProgress || {};
+                            let currentProgress = missionProgress[missionId] || 0;
+                            
+                            if (currentProgress === 0) {
+                                // Start mission
+                                currentProgress = 25;
+                                showNotification('Mission started! 🚀', 'success');
+                                btn.textContent = 'Continue Mission';
+                                btn.classList.remove('btn-primary');
+                                btn.classList.add('btn-outline');
+                            } else if (currentProgress < 100) {
+                                // Continue mission
+                                currentProgress = Math.min(currentProgress + 25, 100);
+                                
+                                if (currentProgress === 100) {
+                                    // Mission completed
+                                    const pointsMatch = pointsText.textContent.match(/(\d+)/);
+                                    const points = pointsMatch ? parseInt(pointsMatch[1]) : 100;
+                                    
+                                    // Award points
+                                    user.points = (user.points || 0) + points;
+                                    user.level = Math.floor(user.points / 100) + 1;
+                                    
+                                    progressText.textContent = 'Completed';
+                                    btn.innerHTML = '<i class="fas fa-check"></i> Completed';
+                                    btn.classList.remove('btn-outline');
+                                    btn.classList.add('btn-success');
+                                    btn.disabled = true;
+                                    
+                                    showNotification(`Mission completed! +${points} XP earned! 🎉`, 'success');
+                                    updateUserUI();
+                                } else {
+                                    showNotification(`Great progress! ${currentProgress}% complete`, 'info');
+                                }
+                            }
+                            
+                            // Update progress
+                            progressFill.style.width = `${currentProgress}%`;
+                            if (currentProgress < 100) {
+                                progressText.textContent = `${currentProgress}% Complete`;
+                            }
+                            
+                            // Save to localStorage
+                            missionProgress[missionId] = currentProgress;
+                            user.missionProgress = missionProgress;
+                            UserData.set(user);
+                        });
+                    }
+                });
+            }
+
+            // Initialize missions
+            initializeMissions();
+            
+        });
+
+        // Notification function (if not already defined)
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #1a1a2e;
+                border: 1px solid #0ff;
+                border-radius: 8px;
+                padding: 1rem;
+                min-width: 300px;
+                max-width: 400px;
+                z-index: 10000;
+                animation: slideIn 0.3s ease-out;
+                box-shadow: 0 4px 20px rgba(0, 255, 255, 0.2);
+                color: #ffffff;
+            `;
+            
+            const icon = type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️';
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span>${icon}</span>
+                    <span>${message}</span>
+                    <button style="margin-left: auto; background: none; border: none; color: #aaa; cursor: pointer; font-size: 1.2rem;" onclick="this.parentElement.parentElement.remove()">&times;</button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease-in';
+                setTimeout(() => notification.remove(), 300);
+            }, 5000);
+        }
+    </script>
+    <style>
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+    </style>
+</body>
+</html>

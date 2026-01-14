@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naari Shakti</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/neon-theme.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            padding-top: 80px;
+            background: #0a0a0a;
+            color: #ffffff;
+            font-family: 'Rajdhani', sans-serif;
+        }
+        
+        .community-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .page-header h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: 3rem;
+            color: #00ffff;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px #00ffff;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid rgba(0, 255, 255, 0.3);
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            padding: 1rem 2rem;
+            background: transparent;
+            border: none;
+            color: #b0b0b0;
+            font-size: 1.1rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+        }
+        
+        .tab:hover {
+            color: #00ffff;
+        }
+        
+        .tab.active {
+            color: #00ffff;
+            border-bottom-color: #00ffff;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        /* Forum/Blog Styles */
+        .forum-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .create-post {
+            background: #1a1a2e;
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .create-post textarea {
+            width: 100%;
+            min-height: 100px;
+            background: #2a2a2a;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            color: #ffffff;
+            font-family: 'Rajdhani', sans-serif;
+            resize: vertical;
+            margin-bottom: 1rem;
+        }
+        
+        .create-post textarea:focus {
+            outline: none;
+            border-color: #00ffff;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+        
+        .post-card {
+            background: #1a1a2e;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s;
+        }
+        
+        .post-card:hover {
+            border-color: #00ffff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+        }
+        
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .post-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #2a2a2a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            border: 2px solid #00ffff;
+        }
+        
+        .post-author {
+            flex: 1;
+        }
+        
+        .post-author-name {
+            font-weight: 600;
+            color: #ffffff;
+        }
+        
+        .post-time {
+            font-size: 0.85rem;
+            color: #b0b0b0;
+        }
+        
+        .post-content {
+            color: #ffffff;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .post-actions {
+            display: flex;
+            gap: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(0, 255, 255, 0.2);
+        }
+        
+        .post-action {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #b0b0b0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .post-action:hover {
+            color: #00ffff;
+        }
+        
+        .post-action.liked {
+            color: #ff00ff;
+        }
+        
+        .comments-section {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(0, 255, 255, 0.1);
+        }
+        
+        .comment {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: rgba(0, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+        
+        .comment-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: #2a2a2a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+        
+        .comment-content {
+            flex: 1;
+        }
+        
+        .comment-author {
+            font-weight: 600;
+            color: #00ffff;
+            margin-bottom: 0.25rem;
+        }
+        
+        .comment-text {
+            color: #b0b0b0;
+        }
+        
+        .comment-input {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .comment-input input {
+            flex: 1;
+            background: #2a2a2a;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            color: #ffffff;
+        }
+        
+        /* Resources Styles */
+        .resources-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .resource-category {
+            margin-bottom: 3rem;
+        }
+        
+        .resource-category h3 {
+            color: #00ffff;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid rgba(0, 255, 255, 0.3);
+            padding-bottom: 0.5rem;
+        }
+        
+        .resource-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .resource-link-card {
+            background: #1a1a2e;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .resource-link-card:hover {
+            border-color: #00ffff;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0, 255, 255, 0.2);
+        }
+        
+        .resource-link-card a {
+            color: #00ffff;
+            text-decoration: none;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .resource-link-card a:hover {
+            text-decoration: underline;
+        }
+        
+        .resource-description {
+            color: #b0b0b0;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        
+        /* Events Styles */
+        .events-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .event-card {
+            background: #1a1a2e;
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .event-card:hover {
+            border-color: #00ffff;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+            transform: translateY(-5px);
+        }
+        
+        .event-status {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .event-status.completed {
+            background: rgba(0, 255, 0, 0.2);
+            color: #00ff00;
+            border: 1px solid #00ff00;
+        }
+        
+        .event-status.ongoing {
+            background: rgba(255, 255, 0, 0.2);
+            color: #ffff00;
+            border: 1px solid #ffff00;
+        }
+        
+        .event-status.upcoming {
+            background: rgba(0, 255, 255, 0.2);
+            color: #00ffff;
+            border: 1px solid #00ffff;
+        }
+        
+        .event-title {
+            color: #00ffff;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .event-date {
+            color: #b0b0b0;
+            margin-bottom: 1rem;
+        }
+        
+        .event-description {
+            color: #b0b0b0;
+            line-height: 1.6;
+        }
+        
+        .event-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        
+        .event-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .event-modal-content {
+            background: #1a1a2e;
+            border: 2px solid #00ffff;
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .event-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .event-modal-header h2 {
+            color: #00ffff;
+            font-size: 2rem;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+        
+        .event-details {
+            color: #b0b0b0;
+            line-height: 1.8;
+        }
+        
+        .event-details h3 {
+            color: #00ffff;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .back-btn {
+            position: fixed;
+            top: 100px;
+            left: 20px;
+            background: rgba(0, 255, 255, 0.2);
+            border: 1px solid #00ffff;
+            color: #00ffff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            z-index: 100;
+        }
+        
+        .back-btn:hover {
+            background: rgba(0, 255, 255, 0.3);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Chat styles (keeping existing) */
+        .community-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr 350px;
+            gap: 2rem;
+            height: calc(100vh - 200px);
+        }
+        
+        .sidebar {
+            background: #1a1a2e;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+        
+        .chat-container {
+            background: #1a1a2e;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .message {
+            display: flex;
+            gap: 10px;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        .message.own {
+            flex-direction: row-reverse;
+        }
+        
+        .message-content {
+            max-width: 70%;
+            background: rgba(0, 255, 255, 0.1);
+            padding: 10px 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+        }
+        
+        .message.own .message-content {
+            background: rgba(0, 255, 255, 0.2);
+        }
+        
+        .chat-input-area {
+            padding: 1rem;
+            background: rgba(0, 255, 255, 0.05);
+            border-top: 1px solid rgba(0, 255, 255, 0.3);
+            display: flex;
+            gap: 10px;
+        }
+        
+        .chat-input {
+            flex: 1;
+            background: #2a2a2a;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 10px 15px;
+            color: #ffffff;
+        }
+        
+        .send-btn {
+            background: #00ffff;
+            color: #0a0a0a;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-shield-alt"></i>
+                <span>Naari Shakti</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="community.html" class="nav-link active">Community</a>
+                <a href="missions.html" class="nav-link">Missions</a>
+                <a href="learning.html" class="nav-link">Learning</a>
+            </div>
+            <div class="nav-auth">
+                <div id="user-profile" class="user-info">
+                    <span id="user-avatar-display" class="user-avatar">🛡️</span>
+                    <span id="user-name-display" class="user-name">Digital Guardian</span>
+                    <span id="user-points" class="user-points">0 XP</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <a href="index.html" class="back-btn">
+        <i class="fas fa-arrow-left"></i> Back to Home
+    </a>
+
+    <div class="community-container">
+        <div class="page-header">
+            <h1 class="neon-text">Peer Mentorship & Community</h1>
+            <p>Connect, report ,protect and raise your voice</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('chat')">
+                <i class="fas fa-comments"></i> Chat
+            </button>
+            <button class="tab" onclick="switchTab('forum')">
+                <i class="fas fa-comments"></i> Discussion Forum
+            </button>
+            <button class="tab" onclick="switchTab('resources')">
+                <i class="fas fa-book"></i> Resource Hub
+            </button>
+            <button class="tab" onclick="switchTab('events')">
+                <i class="fas fa-calendar"></i> Events & Workshops
+            </button>
+        </div>
+
+        <!-- Chat Tab -->
+        <div class="tab-content active" id="chat-tab">
+            <div class="community-grid">
+                <div class="sidebar">
+                    <h3 style="color: #00ffff; margin-bottom: 1rem;"><i class="fas fa-users"></i> Online Guardians</h3>
+                    <ul class="user-list" id="user-list" style="list-style: none; padding: 0;">
+                        <!-- Users loaded dynamically -->
+                    </ul>
+                </div>
+                <div class="chat-container">
+                    <div style="padding: 1rem; background: rgba(0, 255, 255, 0.1); border-bottom: 1px solid rgba(0, 255, 255, 0.3);">
+                        <div style="font-weight: 600; color: #00ffff;">Community Chat</div>
+                        <div style="font-size: 0.85rem; color: #b0b0b0;">Share, learn, and connect</div>
+                    </div>
+                    <div class="chat-messages" id="chat-messages">
+                        <div class="message">
+                            <div class="message-content">
+                                <div>Welcome to the Nari Shakti community! Feel free to ask questions, share experiences, and connect with fellow guardians.</div>
+                                <div style="font-size: 0.75rem; color: #b0b0b0; margin-top: 5px;">System • Just now</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-input-area">
+                        <input type="text" class="chat-input" id="chat-input" placeholder="Type your message...">
+                        <button class="send-btn" id="send-btn"><i class="fas fa-paper-plane"></i> Send</button>
+                    </div>
+                </div>
+                <div class="sidebar">
+                    <h3 style="color: #00ffff; margin-bottom: 1rem;"><i class="fas fa-robot"></i> AI Assistant</h3>
+                    <div style="background: rgba(0, 255, 255, 0.05); border-radius: 8px; padding: 1rem; margin-bottom: 1rem;">
+                        <div style="color: #b0b0b0; font-size: 0.9rem; margin-bottom: 1rem;">👋 Hi! Ask me anything about cybersecurity!</div>
+                        <input type="text" id="ai-input" placeholder="Ask AI..." style="width: 100%; padding: 8px; background: #2a2a2a; border: 1px solid rgba(0, 255, 255, 0.3); border-radius: 8px; color: #ffffff;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Forum Tab -->
+        <div class="tab-content" id="forum-tab">
+            <div class="forum-container">
+                <div class="create-post">
+                    <textarea id="post-content" placeholder="What's on your mind? Share your thoughts, questions, or experiences..."></textarea>
+                    <button class="send-btn" onclick="createPost()" style="width: 100%;">
+                        <i class="fas fa-paper-plane"></i> Post
+                    </button>
+                </div>
+                <div id="posts-container">
+                    <!-- Posts loaded dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Resources Tab -->
+        <div class="tab-content" id="resources-tab">
+    <div class="resources-container">
+
+        <!-- Government & Legal Bodies -->
+        <div class="resource-category">
+            <h3><i class="fas fa-balance-scale"></i> Government & Legal Support (India)</h3>
+            <div class="resource-links">
+                <div class="resource-link-card">
+                    <a href="https://shebox.nic.in" target="_blank">SHe-Box (Sexual Harassment electronic Box)</a>
+                    <div class="resource-description">
+                        Official Government of India portal to file complaints related to workplace sexual harassment under the POSH Act.
+                    </div>
+                </div>
+                <div class="resource-link-card">
+                    <a href="https://ncw.nic.in" target="_blank">National Commission for Women (NCW)</a>
+                    <div class="resource-description">
+                        Government body for protecting women’s rights and addressing complaints of harassment and violence.
+                    </div>
+                </div>
+                <div class="resource-link-card">
+                    <a href="https://www.legalservicesindia.com" target="_blank">National Legal Services Authority (NALSA)</a>
+                    <div class="resource-description">
+                        Provides free legal aid and support to women facing domestic or workplace harassment.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Helplines -->
+        <div class="resource-category">
+            <h3><i class="fas fa-phone"></i> Women Safety Helplines (24×7)</h3>
+            <div class="resource-links">
+                <div class="resource-link-card">
+                    <a href="tel:181">181 – Women Helpline</a>
+                    <div class="resource-description">
+                        24×7 women safety helpline for harassment, abuse, and emergency assistance.
+                    </div>
+                </div>
+                <div class="resource-link-card">
+                    <a href="tel:112">112 – Emergency Police Assistance</a>
+                    <div class="resource-description">
+                        Immediate police response for situations involving danger or violence.
+                    </div>
+                </div>
+                <div class="resource-link-card">
+                    <a href="tel:1091">1091 – Women Police Helpline</a>
+                    <div class="resource-description">
+                        Dedicated police helpline for women facing harassment or threats.
+                    </div>
+                </div>
+                <div class="resource-link-card">
+                    <a href="https://cybercrime.gov.in" target="_blank">Cyber Crime Portal (Women Safety)</a>
+                    <div class="resource-description">
+                        Report online harassment, stalking, blackmail, and abuse against women.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NGOs & Support Organisations -->
+        <div class="resource-category">
+            <h3><i class="fas fa-hands-helping"></i> NGOs & Support Organisations</h3>
+            <div class="resource-links">
+                <div class="resource-link-card">
+                    <a href="https://www.jagori.org" target="_blank">Jagori</a>
+                    <div class="resource-description">
+                        Works on ending violence against women through advocacy, research, and community support.
+                    </div>
+                </div>
+                <div class="resource-link-card">
+                    <a href="https://www.snehaindia.org" target="_blank">Sneha Foundation</a>
+                    <div class="resource-description">
+                        Provides emotional support, counseling, and crisis intervention for women facing abuse.
+                    </div>
+                </div>
+                <div class="resource-link-card">
+                    <a href="https://www.shaktishalini.org" target="_blank">Shakti Shalini</a>
+                    <div class="resource-description">
+                        Supports survivors of domestic violence, sexual assault, and trafficking.
+                    </div>
+                </div>
+                <div class="resource-link-card">
+                    <a href="https://www.sayfty.com" target="_blank">Sayfty</a>
+                    <div class="resource-description">
+                        POSH compliance and workplace sexual harassment prevention support for organizations.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Awareness & Learning -->
+        <div class="resource-category">
+            <h3><i class="fas fa-book"></i> Awareness & Learning Resources</h3>
+            <div class="resource-links">
+                <div class="resource-link-card">
+                    <a href="https://wcd.nic.in/act/sexual-harassment-women-workplace-prevention-prohibition-and-redressal-act-2013"
+                       target="_blank">
+                        POSH Act, 2013 – Official Guidelines
+                    </a>
+                    <div class="resource-description">
+                        Learn about your rights and legal protections against workplace sexual harassment.
+                    </div>
+                </div>
+                <div class="resource-link-card">
+                    <a href="https://www.unwomen.org/en" target="_blank">UN Women</a>
+                    <div class="resource-description">
+                        Global resources and campaigns to prevent violence and harassment against women.
+                    </div>
+                </div>
+                <div class="resource-link-card">
+                    <a href="https://www.breakingthesilence.in" target="_blank">Breaking the Silence</a>
+                    <div class="resource-description">
+                        Awareness and education initiatives focused on gender-based violence and consent.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        <!-- Events Tab -->
+        <div class="tab-content" id="events-tab">
+            <div class="events-container">
+                <div class="events-grid" id="events-grid">
+                    <!-- Events loaded dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Event Modal -->
+    <div class="event-modal" id="event-modal">
+        <div class="event-modal-content">
+            <div class="event-modal-header">
+                <h2 id="modal-event-title"></h2>
+                <button class="close-modal" onclick="closeEventModal()">&times;</button>
+            </div>
+            <div class="event-details" id="event-details">
+                <!-- Event details loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load user data
+        function loadUserData() {
+            const userData = localStorage.getItem('digitalGuardianUser');
+            if (userData) {
+                const user = JSON.parse(userData);
+                document.getElementById('user-avatar-display').textContent = getAvatarIcon(user.avatar);
+                document.getElementById('user-name-display').textContent = user.name;
+                document.getElementById('user-points').textContent = `${user.points || 0} XP`;
+            }
+        }
+
+        function getAvatarIcon(avatar) {
+            const map = {
+                'avatar1': '🛡️', 'avatar2': '⚔️', 'avatar3': '🥷', 'avatar4': '💻',
+                'avatar5': '🔒', 'avatar6': '🌐', 'avatar7': '🔐', 'avatar8': '🛡️',
+                'avatar9': '⚡', 'avatar10': '🦸', 'avatar11': '👩‍💻', 'avatar12': '👑'
+            };
+            return map[avatar] || '🛡️';
+        }
+
+        // Tab switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+            
+            if (tabName === 'forum') loadForum();
+            if (tabName === 'events') loadEvents();
+        }
+
+        // Chat functionality
+        const chatInput = document.getElementById('chat-input');
+        const sendBtn = document.getElementById('send-btn');
+
+        sendBtn.addEventListener('click', sendChatMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendChatMessage();
+        });
+
+        function sendChatMessage() {
+            const text = chatInput.value.trim();
+            if (text) {
+                const user = JSON.parse(localStorage.getItem('digitalGuardianUser') || '{}');
+                const messagesDiv = document.getElementById('chat-messages');
+                const message = document.createElement('div');
+                message.className = 'message own';
+                message.innerHTML = `
+                    <div class="message-content">
+                        <div>${text}</div>
+                        <div style="font-size: 0.75rem; color: #b0b0b0; margin-top: 5px;">${user.name || 'You'} • ${new Date().toLocaleTimeString()}</div>
+                    </div>
+                `;
+                messagesDiv.appendChild(message);
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+                chatInput.value = '';
+            }
+        }
+
+        // Forum functionality
+        let posts = JSON.parse(localStorage.getItem('forumPosts') || '[]');
+
+        function loadForum() {
+            const container = document.getElementById('posts-container');
+            container.innerHTML = '';
+            
+            if (posts.length === 0) {
+                // Add sample posts
+                posts = [
+                    {
+                        id: 1,
+                        author: 'Sarah Chen',
+                        avatar: '🛡️',
+                        content: 'Just completed my first cybersecurity certification! Excited to help others on their journey. What resources helped you the most?',
+                        time: '2 hours ago',
+                        likes: 12,
+                        comments: [
+                            { author: 'Maria Garcia', avatar: '⚔️', text: 'Congratulations! The CompTIA Security+ course was really helpful for me.', time: '1 hour ago' }
+                        ],
+                        liked: false
+                    },
+                    {
+                        id: 2,
+                        author: 'Priya Patel',
+                        avatar: '💻',
+                        content: 'Can someone explain the difference between phishing and spear phishing? I\'m preparing for an interview.',
+                        time: '5 hours ago',
+                        likes: 8,
+                        comments: [
+                            { author: 'Emma Wilson', avatar: '🔒', text: 'Phishing is broad targeting, while spear phishing is personalized attacks on specific individuals. Check out the learning section for detailed resources!', time: '4 hours ago' }
+                        ],
+                        liked: false
+                    }
+                ];
+                localStorage.setItem('forumPosts', JSON.stringify(posts));
+            }
+            
+            posts.forEach(post => {
+                const postDiv = document.createElement('div');
+                postDiv.className = 'post-card';
+                postDiv.innerHTML = `
+                    <div class="post-header">
+                        <div class="post-avatar">${post.avatar}</div>
+                        <div class="post-author">
+                            <div class="post-author-name">${post.author}</div>
+                            <div class="post-time">${post.time}</div>
+                        </div>
+                    </div>
+                    <div class="post-content">${post.content}</div>
+                    <div class="post-actions">
+                        <div class="post-action ${post.liked ? 'liked' : ''}" onclick="likePost(${post.id})">
+                            <i class="fas fa-heart"></i> <span>${post.likes}</span>
+                        </div>
+                        <div class="post-action" onclick="toggleComments(${post.id})">
+                            <i class="fas fa-comment"></i> <span>${post.comments.length}</span>
+                        </div>
+                        <div class="post-action" onclick="sharePost(${post.id})">
+                            <i class="fas fa-share"></i> Share
+                        </div>
+                    </div>
+                    <div class="comments-section" id="comments-${post.id}" style="display: none;">
+                        ${post.comments.map(comment => `
+                            <div class="comment">
+                                <div class="comment-avatar">${comment.avatar}</div>
+                                <div class="comment-content">
+                                    <div class="comment-author">${comment.author}</div>
+                                    <div class="comment-text">${comment.text}</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                        <div class="comment-input">
+                            <input type="text" id="comment-${post.id}" placeholder="Write a comment...">
+                            <button class="send-btn" onclick="addComment(${post.id})">Post</button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(postDiv);
+            });
+        }
+
+        function createPost() {
+            const content = document.getElementById('post-content').value.trim();
+            if (!content) return;
+            
+            const user = JSON.parse(localStorage.getItem('digitalGuardianUser') || '{}');
+            const newPost = {
+                id: Date.now(),
+                author: user.name || 'Anonymous',
+                avatar: getAvatarIcon(user.avatar || 'avatar1'),
+                content: content,
+                time: 'Just now',
+                likes: 0,
+                comments: [],
+                liked: false
+            };
+            
+            posts.unshift(newPost);
+            localStorage.setItem('forumPosts', JSON.stringify(posts));
+            document.getElementById('post-content').value = '';
+            loadForum();
+        }
+
+        function likePost(postId) {
+            const post = posts.find(p => p.id === postId);
+            if (post) {
+                if (post.liked) {
+                    post.likes--;
+                    post.liked = false;
+                } else {
+                    post.likes++;
+                    post.liked = true;
+                }
+                localStorage.setItem('forumPosts', JSON.stringify(posts));
+                loadForum();
+            }
+        }
+
+        function toggleComments(postId) {
+            const commentsDiv = document.getElementById(`comments-${postId}`);
+            commentsDiv.style.display = commentsDiv.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function addComment(postId) {
+            const input = document.getElementById(`comment-${postId}`);
+            const text = input.value.trim();
+            if (!text) return;
+            
+            const user = JSON.parse(localStorage.getItem('digitalGuardianUser') || '{}');
+            const post = posts.find(p => p.id === postId);
+            if (post) {
+                post.comments.push({
+                    author: user.name || 'Anonymous',
+                    avatar: getAvatarIcon(user.avatar || 'avatar1'),
+                    text: text,
+                    time: 'Just now'
+                });
+                localStorage.setItem('forumPosts', JSON.stringify(posts));
+                input.value = '';
+                loadForum();
+            }
+        }
+
+        function sharePost(postId) {
+            const post = posts.find(p => p.id === postId);
+            if (post) {
+                if (navigator.share) {
+                    navigator.share({
+                        title: `Post by ${post.author}`,
+                        text: post.content
+                    });
+                } else {
+                    alert('Post shared! (Share functionality would work on mobile devices)');
+                }
+            }
+        }
+
+        // Events
+     const events = [
+    {
+        id: 1,
+        title: 'Sexual Harassment Awareness Workshop',
+        date: 'October 18, 2024',
+        status: 'completed',
+        description: 'An awareness workshop focused on understanding sexual harassment, consent, and women’s rights.',
+        details: {
+            what: 'A one-day awareness workshop covering types of sexual harassment, consent, workplace safety, and legal remedies available to women.',
+            how: 'Conducted in hybrid mode with expert talks, real-life case discussions, and interactive Q&A sessions.',
+            participants: 'More than 180 participants including students, working professionals, and educators.',
+            highlights: 'Sessions on POSH Act, bystander intervention, reporting mechanisms, and survivor support resources. Participation certificates were provided.'
+        }
+    },
+    {
+        id: 2,
+        title: 'Women Safety & Legal Rights Seminar',
+        date: 'November 12, 2024',
+        status: 'completed',
+        description: 'A seminar to educate women about their legal rights and protection laws in India.',
+        details: {
+            what: 'An informative seminar explaining women-centric laws such as IPC sections, POSH Act, and cyber crime laws.',
+            how: 'Lawyers, activists, and counselors delivered sessions with case studies and simplified legal explanations.',
+            participants: '140 women participants including college students and working women.',
+            highlights: 'Live legal consultation desk, downloadable complaint formats, and helpline awareness sessions.'
+        }
+    },
+    {
+        id: 3,
+        title: 'Self-Defense & Personal Safety Training',
+        date: 'December 8–10, 2024',
+        status: 'completed',
+        description: 'A three-day hands-on self-defense training program for women.',
+        details: {
+            what: 'Practical training focused on situational awareness, self-defense techniques, and emergency response.',
+            how: 'Physical training sessions conducted by certified instructors with real-world simulation exercises.',
+            participants: '95 women actively participated across all three days.',
+            highlights: 'Hands-on drills, confidence-building activities, and personal safety toolkits provided.'
+        }
+    },
+    {
+        id: 4,
+        title: 'Cyber Harassment & Online Safety Session',
+        date: 'December 22, 2024',
+        status: 'ongoing',
+        description: 'A session focused on online abuse, cyber stalking, and digital safety for women.',
+        details: {
+            what: 'An awareness session on cyber crimes against women including stalking, impersonation, blackmail, and revenge porn.',
+            how: 'Online webinar with live demonstrations on reporting cyber crimes and securing digital profiles.',
+            participants: 'Currently 110 registered participants attending live sessions.',
+            highlights: 'Guidance on cyber crime reporting portals, privacy settings, and evidence preservation.'
+        }
+    },
+    {
+        id: 5,
+        title: 'Women Protection & POSH Compliance Summit',
+        date: 'January 20, 2025',
+        status: 'upcoming',
+        description: 'A summit dedicated to workplace safety, POSH compliance, and gender-sensitive environments.',
+        details: {
+            what: 'A full-day summit focusing on prevention of sexual harassment, employer responsibilities, and safe workplace culture.',
+            how: 'Keynote speeches, panel discussions, mock ICC proceedings, and policy-building workshops.',
+            participants: 'Registrations open. Expected participation: 220+ HR professionals, students, and working women.',
+            highlights: 'Expert speakers, POSH certification guidance, legal compliance toolkits, and networking opportunities.'
+        }
+    }
+];
+
+
+        function loadEvents() {
+            const grid = document.getElementById('events-grid');
+            grid.innerHTML = '';
+            
+            events.forEach(event => {
+                const card = document.createElement('div');
+                card.className = 'event-card';
+                card.onclick = () => showEventDetails(event);
+                
+                const statusClass = event.status === 'completed' ? 'completed' : event.status === 'ongoing' ? 'ongoing' : 'upcoming';
+                const statusText = event.status === 'completed' ? 'Completed' : event.status === 'ongoing' ? 'Happening Now' : 'Coming Soon';
+                
+                card.innerHTML = `
+                    <div class="event-status ${statusClass}">${statusText}</div>
+                    <div class="event-title">${event.title}</div>
+                    <div class="event-date"><i class="fas fa-calendar"></i> ${event.date}</div>
+                    <div class="event-description">${event.description}</div>
+                    <div style="margin-top: 1rem; color: #00ffff; font-weight: 600;">
+                        <i class="fas fa-info-circle"></i> Click for details
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function showEventDetails(event) {
+            document.getElementById('modal-event-title').textContent = event.title;
+            const details = document.getElementById('event-details');
+            details.innerHTML = `
+                <div style="margin-bottom: 1.5rem;">
+                    <span class="event-status ${event.status === 'completed' ? 'completed' : event.status === 'ongoing' ? 'ongoing' : 'upcoming'}">
+                        ${event.status === 'completed' ? 'Completed' : event.status === 'ongoing' ? 'Happening Now' : 'Coming Soon'}
+                    </span>
+                    <div style="color: #b0b0b0; margin-top: 0.5rem;"><i class="fas fa-calendar"></i> ${event.date}</div>
+                </div>
+                <h3>What Happened</h3>
+                <p>${event.details.what}</p>
+                <h3>How It Happened</h3>
+                <p>${event.details.how}</p>
+                <h3>Who Joined</h3>
+                <p>${event.details.participants}</p>
+                <h3>Highlights</h3>
+                <p>${event.details.highlights}</p>
+            `;
+            document.getElementById('event-modal').classList.add('active');
+        }
+
+        function closeEventModal() {
+            document.getElementById('event-modal').classList.remove('active');
+        }
+
+        // Load online users
+        function loadOnlineUsers() {
+            const users = [
+                { name: 'Sarah Chen', role: 'Guardian', avatar: '🛡️' },
+                { name: 'Maria Garcia', role: 'Guardian', avatar: '⚔️' },
+                { name: 'Priya Patel', role: 'Protectee', avatar: '💻' },
+                { name: 'Emma Wilson', role: 'Guardian', avatar: '🔒' }
+            ];
+            const userList = document.getElementById('user-list');
+            userList.innerHTML = '';
+            users.forEach(user => {
+                const li = document.createElement('li');
+                li.style.cssText = 'display: flex; align-items: center; gap: 10px; padding: 10px; margin-bottom: 10px; background: rgba(0, 255, 255, 0.05); border-radius: 8px;';
+                li.innerHTML = `
+                    <div style="width: 40px; height: 40px; border-radius: 50%; background: #2a2a2a; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; border: 2px solid #00ffff;">${user.avatar}</div>
+                    <div style="flex: 1;">
+                        <div style="font-weight: 600; color: #ffffff;">${user.name}</div>
+                        <div style="font-size: 0.85rem; color: #b0b0b0;">${user.role}</div>
+                    </div>
+                    <div style="width: 10px; height: 10px; border-radius: 50%; background: #00ff00;"></div>
+                `;
+                userList.appendChild(li);
+            });
+        }
+
+        loadUserData();
+        loadOnlineUsers();
+    </script>
+</body>
+</html>
