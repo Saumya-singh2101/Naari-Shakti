@@ -1,145 +1,117 @@
-# Digital Guardian - Cybersecurity Education Platform
+**Naari Shakti**
 
-A full-stack cybersecurity education platform empowering women through peer mentorship, community support, and digital safety training.
+A Privacy-First Platform for Women’s Safety, Support, and Empowerment
 
-## Features
+**Overview**
 
-- ✅ User Authentication (Sign Up / Sign In)
-- ✅ Avatar Selection System
-- ✅ Role-based Access (Guardian/Protectee)
-- ✅ User Profile Management
-- ✅ Points & Leveling System
-- ✅ Leaderboard
-- ✅ Modern Cyberpunk UI/UX
-- ✅ Responsive Design
+Naari Shakti is a socially driven digital platform designed to help women—especially those in informal, contract-based, and low-resource work environments—take the first safe step toward support when facing workplace harassment.
 
-## Tech Stack
+The platform focuses on empowerment before enforcement, bridging the gap between experiencing harassment and accessing help, guidance, or legal pathways.
 
-### Frontend
-- HTML5, CSS3, JavaScript
-- Modern UI with Neon/Cyberpunk Theme
-- Responsive Design
+**Problem Statement
+**
+Despite the presence of workplace protection laws, harassment remains underreported due to:
 
+Fear of retaliation and job loss
 
+Power imbalances
 
-## Setup Instructions
+Social stigma
 
+Lack of accessible, trusted reporting mechanisms
 
+This gap is most severe in informal and Tier 2/Tier 3 work settings.
 
-### Installation
+Solution
 
-1. **Install Dependencies**
-   ```bash
-   npm install
-   ```
+Naari Shakti provides a safe, anonymous, and accessible space where women can:
 
-2. **Set Up Environment Variables**
-   
-   Create a `.env` file in the root directory:
-   ```env
-   PORT=5000
-   NODE_ENV=development
-   MONGODB_URI=mongodb://localhost:27017/digitalguardian
-   JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
-   JWT_EXPIRES_IN=7d
-   ```
-   ```
+Seek guidance without revealing identity
 
-3 **Start the Server**
-   ```bash
-   npm start
-   ```
-   
-   For development with auto-reload:
-   ```bash
-   npm run dev
-   ```
+Access safety and emergency support
 
-4. **Open the Application**
-   
-   Open `index.html` in your browser, or if using a server:
-   - Frontend: Open `http://localhost:8000` (if using Python server)
-   - Backend API: `http://localhost:5000/api`
+Understand their rights in simple, actionable language
 
-## Project Structure
+Connect with trusted guardians, NGOs, and support organizations
 
-```
-.
-├── server.js              # Main server file
-├── models/
-│   └── User.js            # User model
-├── routes/
-│   ├── auth.js            # Authentication routes
-│   └── user.js            # User profile routes
-├── middleware/
-│   └── auth.js            # JWT authentication middleware
-├── js/
-│   ├── api.js             # API service
-│   ├── main.js            # Main frontend logic
-│   └── animations.js      # Animation effects
-├── css/
-│   ├── styles.css         # Main styles
-│   └── neon-theme.css     # Neon theme styles
-├── index.html             # Main HTML file
-└── package.json           # Dependencies
-```
+The platform is pre-legal, meaning it does not deliver justice or enforcement, but prepares and empowers women to approach formal systems confidently if they choose to.
 
-## API Endpoints
+**Key Features
+**
+Anonymous Access – No real name, phone number, email, or ID required
 
-### Authentication
-- `POST /api/auth/signup` - Create new user account
-- `POST /api/auth/signin` - Login user
-- `GET /api/auth/verify` - Verify JWT token
-- `GET /api/auth/avatars` - Get available avatars
+Guardian–Angel System – Human support through trained individuals or partner organizations
 
-### User
-- `GET /api/user/profile` - Get user profile (requires auth)
-- `PUT /api/user/profile` - Update user profile (requires auth)
-- `PUT /api/user/points` - Update user points (requires auth)
-- `GET /api/user/leaderboard` - Get leaderboard
+Panic / SOS Support – Emergency alerts for real-world intervention
 
-## Usage
+Awareness & Resources – Simplified information on harassment, rights, and next steps
 
-1. **Sign Up**: Click "Sign Up" button, fill in your details, select a role (Guardian/Protectee), choose an avatar, and create your account.
+Mobile-First Design – Built as a Progressive Web App (PWA) for low data and low-end devices
 
-2. **Sign In**: Click "Login" button, enter your email and password.
+Technology Approach
 
-3. **Profile**: Once logged in, your avatar and name will appear in the navigation bar.
+Frontend: Progressive Web App (PWA)
 
-4. **Logout**: Click the "Logout" button in the navigation bar.
+Architecture: Modular, privacy-first design
 
-## Development
+Backend & Database:
 
-### Running in Development Mode
-```bash
-npm run dev
-```
+Not implemented at this stage
 
-This uses `nodemon` to automatically restart the server when files change.
+Intentionally excluded to avoid storing sensitive data without full security, legal, and governance frameworks
 
+Planned for future execution with experienced developers
 
+Data Philosophy
 
+Naari Shakti follows a minimum-data, ethics-first approach:
 
+No personal identifiers are stored
 
-## Future Enhancements
+No persistent backend database in the prototype
 
-- [ ] Mission system integration
-- [ ] Real-time chat/messaging
-- [ ] Email verification
-- [ ] Password reset functionality
-- [ ] Social media integration
-- [ ] Advanced analytics dashboard
+Any future data collection will be:
 
-## License
+Anonymized
 
-ISC
+Aggregated
 
-## Author
+Purpose-limited
 
-Saumya,Aarushi,Pranav
+Used only for safety and impact insights
 
----
+**Current Status**
 
-Built with 💜 for women to protect and raise their voice safely against the injustice
+✅ Ideation complete
+
+✅ User flow and solution design validated
+
+✅ Prototype built using AI-assisted tools
+
+⏳ Backend, security layers, and governance planned for implementation phase
+
+**Implementation Roadmap**
+
+NGO and women’s collective partnerships
+
+Pilot deployment in a limited region
+
+Guardian training and feedback loops
+
+Secure backend and data layer implementation
+
+Gradual, responsible scaling
+
+Category
+
+**Primary: AI for Society
+Approach: Open, collaborative innovation
+**
+
+**Disclaimer
+**
+Naari Shakti is not a legal authority or enforcement platform.
+It is designed to support, empower, and guide women toward safer choices and informed action.
+
 
 
