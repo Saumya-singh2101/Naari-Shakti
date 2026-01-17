@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOS Emergency - Naari Shakti</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/neon-theme.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            padding-top: 80px;
+            background: #0a0a0a;
+            color: #ffffff;
+            font-family: 'Rajdhani', sans-serif;
+            min-height: 100vh;
+        }
+        
+        .sos-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .page-header h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: 3rem;
+            color: #ff0066;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 30px #ff0066;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .alert-status {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(255, 0, 102, 0.1);
+            border: 2px solid #ff0066;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+        
+        .alert-status.inactive {
+            background: rgba(0, 255, 255, 0.1);
+            border-color: #00ffff;
+        }
+        
+        .alert-status.active {
+            animation: alertBlink 1s infinite;
+        }
+        
+        @keyframes alertBlink {
+            0%, 100% { background: rgba(255, 0, 102, 0.1); }
+            50% { background: rgba(255, 0, 102, 0.3); }
+        }
+        
+        .status-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .emergency-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .emergency-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .emergency-card {
+            background: #1a1a2e;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+        
+        .emergency-card h2 {
+            color: #00ffff;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .emergency-card h2 i {
+            font-size: 1.8rem;
+        }
+        
+        .btn-emergency {
+            width: 100%;
+            padding: 1.5rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+        
+        .btn-sos-activate {
+            background: linear-gradient(45deg, #ff0066, #ff3366);
+            color: white;
+            box-shadow: 0 0 30px rgba(255, 0, 102, 0.5);
+        }
+        
+        .btn-sos-activate:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 50px rgba(255, 0, 102, 0.8);
+        }
+        
+        .btn-sos-deactivate {
+            background: linear-gradient(45deg, #00ff00, #00cc00);
+            color: #0a0a0a;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.5);
+        }
+        
+        .btn-sos-deactivate:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 50px rgba(0, 255, 0, 0.8);
+        }
+        
+        .btn-secondary {
+            background: rgba(0, 255, 255, 0.2);
+            border: 1px solid #00ffff;
+            color: #00ffff;
+            padding: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .btn-secondary:hover {
+            background: #00ffff;
+            color: #0a0a0a;
+        }
+        
+        .guardian-select {
+            margin-bottom: 1rem;
+        }
+        
+        .guardian-select label {
+            display: block;
+            color: #00ffff;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .guardian-select select {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 8px;
+            color: white;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+        }
+        
+        .message-input {
+            margin-bottom: 1rem;
+        }
+        
+        .message-input label {
+            display: block;
+            color: #00ffff;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .message-input textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 8px;
+            color: white;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .location-info {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .location-info p {
+            margin: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .location-info i {
+            color: #00ffff;
+        }
+        
+        .chat-section {
+            grid-column: 1 / -1;
+        }
+        
+        .chat-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+        }
+        
+        .chat-message {
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            border-radius: 8px;
+            max-width: 70%;
+        }
+        
+        .chat-message.user {
+            background: rgba(0, 255, 255, 0.2);
+            margin-left: auto;
+            text-align: right;
+        }
+        
+        .chat-message.guardian {
+            background: rgba(255, 0, 102, 0.2);
+            margin-right: auto;
+        }
+        
+        .chat-message.system {
+            background: rgba(255, 255, 255, 0.1);
+            margin: 0 auto;
+            text-align: center;
+            max-width: 90%;
+            font-size: 0.9rem;
+            color: #b0b0b0;
+        }
+        
+        .message-sender {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            font-size: 0.9rem;
+        }
+        
+        .message-time {
+            font-size: 0.8rem;
+            color: #b0b0b0;
+            margin-top: 0.3rem;
+        }
+        
+        .chat-input-container {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .chat-input-container input {
+            flex: 1;
+            padding: 1rem;
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 8px;
+            color: white;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+        }
+        
+        .chat-input-container button {
+            padding: 1rem 2rem;
+            background: rgba(0, 255, 255, 0.2);
+            border: 1px solid #00ffff;
+            color: #00ffff;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .chat-input-container button:hover {
+            background: #00ffff;
+            color: #0a0a0a;
+        }
+        
+        .alert-contacts {
+            list-style: none;
+            padding: 0;
+            margin-top: 1rem;
+        }
+        
+        .alert-contacts li {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background: rgba(0, 255, 0, 0.1);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .alert-contacts i {
+            color: #00ff00;
+        }
+        
+        .guardian-online {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: #00ff00;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            animation: blink 2s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        .thank-you-section {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(0, 255, 0, 0.1);
+            border: 2px solid #00ff00;
+            border-radius: 12px;
+            display: none;
+        }
+        
+        .thank-you-section.show {
+            display: block;
+        }
+        
+        .thank-you-section h2 {
+            color: #00ff00;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 1rem 2rem;
+            background: rgba(0, 255, 255, 0.2);
+            border: 1px solid #00ffff;
+            color: #00ffff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .back-btn:hover {
+            background: #00ffff;
+            color: #0a0a0a;
+        }
+        
+        .disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <span>Naari Shakti</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="protectee-dashboard.html">Dashboard</a></li>
+                <li><a href="sos-emergency.html" class="active">SOS Emergency</a></li>
+                <li><a href="community.html">Community</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="sos-container">
+        <div class="page-header">
+            <h1><i class="fas fa-exclamation-triangle"></i> SOS EMERGENCY</h1>
+            <p style="color: #b0b0b0;">Your safety is our priority. Activate emergency alert when you feel unsafe.</p>
+        </div>
+
+        <!-- Alert Status -->
+        <div class="alert-status inactive" id="alertStatus">
+            <div class="status-text" id="statusText">Emergency Alert: INACTIVE</div>
+            <p id="statusDescription">Click below to activate emergency alert</p>
+        </div>
+
+        <!-- Emergency Grid -->
+        <div class="emergency-grid">
+            <!-- Guardian Messaging -->
+            <div class="emergency-card">
+                <h2><i class="fas fa-user-shield"></i> Message Guardian</h2>
+                
+                <div class="guardian-select">
+                    <label for="guardianSelect">Select Guardian:</label>
+                    <select id="guardianSelect">
+                        <option value="">-- Choose Guardian --</option>
+                        <option value="guardian1">👮‍♀️ Guardian Sarah (Police Officer)</option>
+                        <option value="guardian2">🛡️ Guardian Maya (Safety Expert)</option>
+                        <option value="guardian3">👨‍⚕️ Guardian Raj (Crisis Counselor)</option>
+                    </select>
+                </div>
+                
+                <div class="message-input">
+                    <label for="emergencyMessage">Emergency Message:</label>
+                    <textarea id="emergencyMessage" placeholder="Describe your situation... (Optional - Location will be shared automatically)"></textarea>
+                </div>
+                
+                <button class="btn-emergency btn-secondary" id="sendMessageBtn">
+                    <i class="fas fa-paper-plane"></i> Send Emergency Message
+                </button>
+            </div>
+
+            <!-- Location Sharing -->
+            <div class="emergency-card">
+                <h2><i class="fas fa-map-marker-alt"></i> Location Alert</h2>
+                
+                <div class="location-info" id="locationInfo">
+                    <p><i class="fas fa-spinner fa-spin"></i> Getting your location...</p>
+                </div>
+                
+                <button class="btn-emergency btn-secondary" id="shareLocationBtn">
+                    <i class="fas fa-broadcast-tower"></i> Share Location with Nearby Police
+                </button>
+                
+                <div id="policeAlertStatus" style="display: none; margin-top: 1rem;">
+                    <p style="color: #00ff00; font-weight: 600;">
+                        <i class="fas fa-check-circle"></i> Alert sent to nearby police stations
+                    </p>
+                    <ul class="alert-contacts" id="policeContactList"></ul>
+                </div>
+            </div>
+
+            <!-- Live Chat with Guardian -->
+            <div class="emergency-card chat-section" id="chatSection" style="display: none;">
+                <h2>
+                    <i class="fas fa-comments"></i> Live Chat with Guardian
+                    <span style="font-size: 0.9rem; color: #00ff00; margin-left: 1rem;">
+                        <span class="guardian-online"></span>Guardian Online
+                    </span>
+                </h2>
+                
+                <div class="chat-container" id="chatContainer">
+                    <div class="chat-message system">
+                        <p>Guardian has been notified of your emergency. They will respond shortly.</p>
+                    </div>
+                </div>
+                
+                <div class="chat-input-container">
+                    <input type="text" id="chatInput" placeholder="Type your message..." />
+                    <button id="sendChatBtn"><i class="fas fa-paper-plane"></i> Send</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Emergency Controls -->
+        <div class="emergency-card" style="text-align: center;">
+            <button class="btn-emergency btn-sos-activate" id="activateSOSBtn">
+                <i class="fas fa-exclamation-circle"></i> ACTIVATE EMERGENCY ALERT
+            </button>
+            
+            <button class="btn-emergency btn-sos-deactivate" id="deactivateSOSBtn" style="display: none;">
+                <i class="fas fa-check-circle"></i> I'M SAFE NOW - DEACTIVATE ALERT
+            </button>
+            
+            <p style="color: #b0b0b0; margin-top: 1rem;">
+                <i class="fas fa-lock"></i> Your identity remains anonymous to public responders
+            </p>
+        </div>
+
+        <!-- Thank You Section -->
+        <div class="thank-you-section" id="thankYouSection">
+            <h2><i class="fas fa-heart"></i> Thank You for Staying Safe!</h2>
+            <p style="font-size: 1.2rem; color: #b0b0b0;">
+                We're glad you're safe now. Your guardians and responders have been notified.
+            </p>
+            <p style="color: #00ff00; font-weight: 600; margin-top: 1rem;">
+                <i class="fas fa-shield-alt"></i> Emergency alert deactivated successfully
+            </p>
+        </div>
+
+        <a href="protectee-dashboard.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+    </div>
+
+    <script src="js/sos-emergency.js"></script>
+</body>
+</html>

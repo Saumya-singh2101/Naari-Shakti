@@ -3,197 +3,526 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Report Incident - Nari Suraksha Saathi</title>
-
-    <link rel="stylesheet" href="style.css">
-
-    <!-- Internal CSS -->
+    <title>Report Incident - Naari Shakti</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/neon-theme.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        html {
-            scroll-behavior: smooth;
-        }
-
         body {
-            min-height: 100vh;
-            margin: 0;
             padding-top: 80px;
-            background-color: #1a1a2e;
+            background: #0a0a0a;
             color: #ffffff;
             font-family: 'Rajdhani', sans-serif;
+            min-height: 100vh;
         }
 
-        .navbar {
+        .report-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-header h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: 3rem;
+            color: #00ffff;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px #00ffff;
+        }
+
+        .page-header p {
+            color: #b0b0b0;
+            font-size: 1.2rem;
+        }
+
+        .form-card {
+            background: #1a1a2e;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s;
+        }
+
+        .form-card:hover {
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+        }
+
+        .form-section-title {
+            color: #00ffff;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-section-title i {
+            font-size: 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: #00ffff;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .required {
+            color: #ff0066;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="date"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(0, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 8px;
+            color: white;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #00ffff;
+            background: rgba(0, 255, 255, 0.1);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            padding: 0.8rem 1.5rem;
+            background: rgba(0, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .radio-option:hover {
+            background: rgba(0, 255, 255, 0.1);
+            border-color: #00ffff;
+        }
+
+        .radio-option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #00ffff;
+            cursor: pointer;
+        }
+
+        .radio-option label {
+            margin: 0;
+            cursor: pointer;
+            color: #ffffff;
+        }
+
+        .anonymous-toggle {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .toggle-btn {
+            flex: 1;
+            padding: 1.2rem;
+            background: rgba(0, 255, 255, 0.05);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .toggle-btn:hover {
+            background: rgba(0, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .toggle-btn.active {
+            background: rgba(0, 255, 255, 0.2);
+            border-color: #00ffff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+        }
+
+        .identity-section {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .identity-section.show {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 1.5rem;
+            background: linear-gradient(45deg, #00ffff, #00cccc);
+            border: none;
+            border-radius: 12px;
+            color: #0a0a0a;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-submit:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.6);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .success-modal {
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            z-index: 1000;
-            background-color: rgba(26, 26, 46, 0.95);
-            height: 80px;
-            display: flex;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 10000;
+            justify-content: center;
             align-items: center;
         }
 
-        .go-home-btn {
-            margin-top: 15px;
-            display: inline-block;
-            border: 1px solid #0ff;
-            color: #0ff;
-            background: transparent;
-            padding: 8px 20px;
-            text-decoration: none;
-            border-radius: 5px;
+        .success-modal.show {
+            display: flex;
         }
 
-        .go-home-btn:hover {
-            background: rgba(0, 255, 255, 0.15);
-            box-shadow: 0 0 10px #0ff;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1001;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.8);
-            padding-top: 50px;
-        }
-
-        .modal-content {
-            background-color: #1a1a2e;
-            margin: 5% auto;
-            padding: 40px;
-            width: 80%;
+        .success-content {
+            background: #1a1a2e;
+            border: 2px solid #00ffff;
+            border-radius: 12px;
+            padding: 3rem;
             max-width: 500px;
-            border-radius: 10px;
-            border: 1px solid #0ff;
-            box-shadow: 0 0 20px #0ff;
+            text-align: center;
+            box-shadow: 0 0 50px rgba(0, 255, 255, 0.5);
+            animation: scaleIn 0.3s;
         }
 
-        .loading-spinner {
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(0,255,255,0.3);
-            border-top-color: #0ff;
+        @keyframes scaleIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            color: #00ff00;
+            margin-bottom: 1rem;
+            animation: bounce 0.6s;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .success-content h2 {
+            color: #00ffff;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .success-content p {
+            color: #b0b0b0;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .guardian-notification {
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .ping-animation {
+            width: 15px;
+            height: 15px;
+            background: #00ff00;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            animation: ping 1s infinite;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        @keyframes ping {
+            0% { box-shadow: 0 0 0 0 rgba(0, 255, 0, 0.7); }
+            100% { box-shadow: 0 0 0 20px rgba(0, 255, 0, 0); }
+        }
+
+        .btn-chat {
+            padding: 1rem 2rem;
+            background: rgba(0, 255, 255, 0.2);
+            border: 1px solid #00ffff;
+            color: #00ffff;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+
+        .btn-chat:hover {
+            background: #00ffff;
+            color: #0a0a0a;
+            transform: scale(1.05);
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 1rem 2rem;
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            color: #00ffff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: rgba(0, 255, 255, 0.2);
+            border-color: #00ffff;
+        }
+
+        .help-text {
+            color: #b0b0b0;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+
+        .disclaimer-box {
+            background: rgba(255, 165, 0, 0.1);
+            border: 1px solid rgba(255, 165, 0, 0.3);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .disclaimer-box h3 {
+            color: #ffa500;
+            margin-bottom: 0.5rem;
+        }
+
+        .disclaimer-box p {
+            color: #b0b0b0;
+            margin: 0;
         }
     </style>
 </head>
 
 <body>
-
-<main>
-    <section class="page-header">
-        <div class="container">
-            <h2 data-i18n="report.title">Report an Incident</h2>
-            <p class="page-subtitle" data-i18n="report.subtitle">
-                Your voice matters. Report safely and discreetly.
-            </p>
-
-            <!-- ✅ GO TO HOME BUTTON -->
-            <a href="index.html" class="go-home-btn">← Go to Home</a>
-        </div>
-    </section>
-
-    <section class="form-section">
-        <div class="container">
-
-            <div class="disclaimer-box">
-                <h3>Important Prototype Notice</h3>
-                <p>
-                    <strong>This is a prototype demonstration.</strong>
-                    Your report will <strong>NOT</strong> be sent to authorities.
-                </p>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <span>Naari Shakti</span>
             </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="protectee-dashboard.html">Dashboard</a></li>
+                <li><a href="sos-emergency.html">SOS Emergency</a></li>
+                <li><a href="report.html" class="active">Report</a></li>
+                <li><a href="community.html">Community</a></li>
+            </ul>
+        </div>
+    </nav>
 
-            <form id="incidentForm" class="incident-form">
+    <div class="report-container">
+        <div class="page-header">
+            <h1><i class="fas fa-file-alt"></i> Report Incident</h1>
+            <p>Your voice matters. Report safely and confidentially.</p>
+        </div>
+
+        <!-- Disclaimer -->
+        <div class="disclaimer-box">
+            <h3><i class="fas fa-info-circle"></i> Confidential Reporting</h3>
+            <p>Your report will be reviewed by trained guardians. All information is kept secure and confidential.</p>
+        </div>
+
+        <!-- Main Form -->
+        <form id="incidentForm">
+            <div class="form-card">
+                <div class="form-section-title">
+                    <i class="fas fa-user-secret"></i>
+                    Identity Preference
+                </div>
 
                 <div class="form-group">
-                    <label>Type of Incident *</label>
-                    <select required>
-                        <option value="">Select type...</option>
-                        <option>Verbal Harassment</option>
-                        <option>Physical Harassment</option>
-                        <option>Sexual Harassment</option>
-                        <option>Discrimination</option>
-                        <option>Other</option>
+                    <label>Would you like to remain anonymous? <span class="required">*</span></label>
+                    <div class="anonymous-toggle">
+                        <button type="button" class="toggle-btn" id="anonymousYesBtn">
+                            <i class="fas fa-user-secret"></i> Yes, Remain Anonymous
+                        </button>
+                        <button type="button" class="toggle-btn" id="anonymousNoBtn">
+                            <i class="fas fa-user"></i> No, Share My Identity
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Identity Fields (shown when not anonymous) -->
+                <div class="identity-section" id="identitySection">
+                    <div class="form-group">
+                        <label>Your Name <span class="required">*</span></label>
+                        <input type="text" id="reporterName" placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label>Location Where You Faced This <span class="required">*</span></label>
+                        <input type="text" id="incidentLocation" placeholder="City, State or specific location">
+                        <p class="help-text">This helps us provide better support and alerts in your area</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-card">
+                <div class="form-section-title">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Incident Details
+                </div>
+
+                <div class="form-group">
+                    <label>Type of Incident <span class="required">*</span></label>
+                    <select id="incidentType" required>
+                        <option value="">-- Select Type --</option>
+                        <option value="verbal">Verbal Harassment</option>
+                        <option value="physical">Physical Harassment</option>
+                        <option value="sexual">Sexual Harassment</option>
+                        <option value="stalking">Stalking</option>
+                        <option value="discrimination">Discrimination</option>
+                        <option value="cyberbullying">Cyberbullying</option>
+                        <option value="other">Other</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label>How often has this happened? *</label>
+                    <label>How often has this happened? <span class="required">*</span></label>
                     <div class="radio-group">
-                        <label><input type="radio" name="freq" required> Once</label>
-                        <label><input type="radio" name="freq"> Few times</label>
-                        <label><input type="radio" name="freq"> Regularly</label>
-                        <label><input type="radio" name="freq"> Ongoing</label>
+                        <div class="radio-option">
+                            <input type="radio" id="freq1" name="frequency" value="once" required>
+                            <label for="freq1">Once</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="freq2" name="frequency" value="few">
+                            <label for="freq2">Few Times</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="freq3" name="frequency" value="regular">
+                            <label for="freq3">Regularly</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="freq4" name="frequency" value="ongoing">
+                            <label for="freq4">Ongoing</label>
+                        </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Brief Description *</label>
-                    <textarea rows="5" required placeholder="Please describe what happened..."></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label>Location</label>
-                    <input type="text" placeholder="Where did this happen?">
+                    <label>Description of Incident <span class="required">*</span></label>
+                    <textarea id="incidentDescription" required placeholder="Please describe what happened in detail. This information helps us provide better support and take appropriate action."></textarea>
+                    <p class="help-text">Include as much detail as you're comfortable sharing</p>
                 </div>
 
                 <div class="form-group">
                     <label>Date of Incident</label>
-                    <input type="date">
+                    <input type="date" id="incidentDate">
                 </div>
 
                 <div class="form-group">
-                    <label>Remain Anonymous? *</label>
-                    <div class="radio-group">
-                        <label><input type="radio" name="anon" required> Yes</label>
-                        <label><input type="radio" name="anon"> No</label>
-                    </div>
+                    <label>Time of Incident (if known)</label>
+                    <input type="text" id="incidentTime" placeholder="e.g., Morning, Evening, 3:00 PM">
                 </div>
-
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">Submit Report</button>
-                    <button type="reset" class="btn btn-secondary">Clear</button>
-                </div>
-
-            </form>
-
-            <!-- THANK YOU MESSAGE -->
-            <div id="thankYouMessage" style="display:none;">
-                <h3>Thank You for Sharing</h3>
-                <p>Your courage matters.</p>
-
-                <a href="help.html" class="btn btn-primary">Find Support</a>
-
-                <!-- ✅ GO HOME AFTER SUBMISSION -->
-                <a href="index.html" class="btn btn-secondary" style="margin-left:10px;">
-                    Go to Home
-                </a>
             </div>
 
-        </div>
-    </section>
-</main>
+            <button type="submit" class="btn-submit">
+                <i class="fas fa-paper-plane"></i> Submit Report
+            </button>
+        </form>
 
-<footer>
-    <div class="container">
-        <p>© 2024 Nari Suraksha Saathi. Prototype for women's safety.</p>
-        <p>Made with ❤️ for women’s safety</p>
+        <a href="index.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
     </div>
-</footer>
 
-<script src="translations.js"></script>
-<script src="script2.js"></script>
+    <!-- Success Modal -->
+    <div class="success-modal" id="successModal">
+        <div class="success-content">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2>Report Submitted Successfully</h2>
+            <p>Thank you for your courage. A guardian will review your report shortly.</p>
+            
+            <div class="guardian-notification" id="guardianNotification" style="display: none;">
+                <div class="ping-animation"></div>
+                <div>
+                    <strong style="color: #00ff00;">Guardian is online!</strong>
+                    <p style="margin: 0.3rem 0 0 0; font-size: 0.9rem;">A guardian wants to discuss your report with you.</p>
+                </div>
+            </div>
+            
+            <button class="btn-chat" id="chatWithGuardianBtn" style="display: none;">
+                <i class="fas fa-comments"></i> Chat with Guardian
+            </button>
+        </div>
+    </div>
+
+    <script src="js/report.js"></script>
 
 </body>
 </html>
